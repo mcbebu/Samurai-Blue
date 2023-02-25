@@ -18,6 +18,12 @@ function NewBroadcast() {
   const [state, setState] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [toggleAddProducts, setToggleAddProducts] = useState(false);
+  const [addedProduct, setAddedProduct] = useState(false);
+
+  const handleAddProduct = () => {
+    setAddedProduct(true);
+    setToggleAddProducts(false);
+  };
 
   useEffect(() => {
     const getAllInformation = async () => {
@@ -38,7 +44,7 @@ function NewBroadcast() {
   }
 
   return (
-    <div className="w-screen h-full">
+    <div className="w-screen h-[full]">
       {isLoading ? (
         ""
       ) : (
@@ -46,7 +52,7 @@ function NewBroadcast() {
           {toggleAddProducts ? (
             <div>
               <div className={`flex justify-center`}>
-                <div className="z-20 bg-white rounded-lg w-[650px] h-[500px] absolute my-16 flex flex-col">
+                <div className="z-20  bg-white rounded-lg w-[650px] h-[500px] absolute my-16 flex flex-col">
                   <XMarkIcon
                     className="w-[28px] h-[28px] mt-9 ml-9 cursor-pointer"
                     onClick={() => setToggleAddProducts(false)}
@@ -81,6 +87,12 @@ function NewBroadcast() {
                       </div>
                     );
                   })}
+                  <button
+                    className="dark-btn-norm mb-6 ml-[30rem]"
+                    onClick={handleAddProduct}
+                  >
+                    Add Product
+                  </button>
                 </div>
               </div>
               <div className="absolute z-10 w-full h-full bg-black opacity-40"></div>
@@ -120,7 +132,7 @@ function NewBroadcast() {
                   name="broadcast-description"
                   id="broadcast-desc"
                   placeholder="Description"
-                  className="input-field mt-1 w-full mb-10 rounded-md border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="input-field mt-1 mb-10 w-full rounded-md border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
               </div>
             </div>
@@ -129,9 +141,15 @@ function NewBroadcast() {
                 <div className="text-xl tracking-widest font-semibold pt-4 px-1">
                   Featured Products
                 </div>
-                <div className="w-auto p-3 h-[5rem] bg-white rounded-lg mb-4">
-                  <div>Sample Product</div>
-                </div>
+                {addedProduct ? (
+                  <div className="w-auto p-4 h-[5rem] bg-white rounded-lg mb-4 flex flex-col">
+                    <div>{content[0].name}</div>
+                    <div>{content[0].product_code}</div>
+                  </div>
+                ) : (
+                  ""
+                )}
+
                 <button
                   className="dark-btn flex gap-1"
                   onClick={() => setToggleAddProducts(true)}
