@@ -19,7 +19,7 @@ async function checkAPI(message) {
     }
 }
 const PAGE_TOKEN =
-    "EAAHycBwKj80BAJt6lKp38FxwstGHh1eIIhkx3UJyAbDkuD9oHY92mDPaZCWLZCLCbE08nJumpLobsttvFtoo3w1vBBZAlFefc03W2MtPOXNBcepXTj8kL06BJYRPlX4PWRM5l4RDgR0rmWAq9yBra3AKUg5ydeqAN3DG0QA02S7HNlZC8X8CfdlEpxTCxxX2aH9tqLAwxoaWUZBCzVSw8DGUnKLKcRxQZD";
+    "EAAHycBwKj80BADfpTv9pTy8UgEwQ3ZBZA3ZCNGj3QyRijIr4yFsuP62RUR4zn6YsYgiBZAZBfkChC04fb30k1GhbyJZAcZAmmwxkkQhZBiODgAdYoqnDu44oncz8uRrXpaXszqUykG86MMXMXCfcyuC36FDHTkbBdrklllrhC8GhXMOhqIGgN1hHZAd1GEEpMG3AgGqUaSxtxrw5cQueForXV0gkdNeU6cekZD";
 const createOrder = async (item) => {
       const response = await fetch(
         BACKEND_DOMAIN + "create-checkout-session",

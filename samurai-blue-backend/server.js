@@ -8,7 +8,7 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "./.env" });
 const cors = require('cors');
 // This is your test secret API key.
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")("sk_test_51Mf6SqEz35CHYtWasw5TQUa6NPSgy451N1jHspfkukELHPZg7tX46hzVupW5u1F3psqkZtBtmyInQPkycckOmUoA000OzWLFaI");
 const { Prisma } = require("@prisma/client");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
@@ -29,12 +29,9 @@ app.use(function (req, res, next) {
 
 const YOUR_DOMAIN = "http://localhost:4242";
 
-const port = process.env.PORT || 4242;
-
 const streamRouter = require("./routes/stream.js");
 app.use("/stream", streamRouter);
 
-app.use(express.static(process.env.STATIC_DIR + "/"));
 app.use(
   session({
     secret: uuidv4(),
@@ -85,7 +82,7 @@ app.get("/get-oauth-link", async (req, res) => {
   req.session.state = state;
   const args = new URLSearchParams({
     state,
-    client_id: process.env.STRIPE_CLIENT_ID,
+    client_id: "ca_NPwPDM6FEUuEdrLumCMK82Job17SrqKd",
     scope: "read_write",
     response_type: "code",
   });
