@@ -7,15 +7,15 @@ import { BriefcaseIcon, PlayCircleIcon, ClipboardDocumentListIcon, ArchiveBoxIco
 function NavBar() {
   const location = useLocation();
   return (
-    <div className='nav-container flex flex-col w-[245px] h-full tracking-wide gap-5 py-10 px-8 relative font-semibold'>
+    <div className='nav-container flex flex-col w-[245px] h-full tracking-wide gap-5 py-9 px-8 relative font-semibold'>
       <div className='tracking-wider text-2xl m-2'>SampleName</div>
       <div className={`nav-button ${location.pathname.includes("/dashboard") ? "border-l-2" : ""}`}>
         <BriefcaseIcon className='w-[24px] h-[24px]'></BriefcaseIcon>
       <Link to="/dashboard">Dashboard</Link>
       </div>
-      <div className={`nav-button ${location.pathname.includes("/sessions") ? "border-l-2" : ""}`}>
+      <div className={`nav-button ${location.pathname.includes("/broadcasts") ? "border-l-2" : ""}`}>
         <PlayCircleIcon className='w-[24px] h-[24px]'></PlayCircleIcon>
-        <Link to="/sessions">Sessions</Link>
+        <Link to="/broadcasts">Broadcasts</Link>
       </div>
       <div className={`nav-button ${location.pathname.includes("/orders") ? "border-l-2" : ""}`}>
         <ClipboardDocumentListIcon className='w-[24px] h-[24px]'></ClipboardDocumentListIcon>
