@@ -22,6 +22,8 @@ textarea {
 .dark-btn {
   background: #000;
   color: white;
+  border: 1px solid black;
+
   @apply py-2 pl-3 pr-5 rounded-full w-fit;
 }
 
@@ -29,23 +31,61 @@ textarea {
 .dark-btn:hover {
   background: white;
   color: black;
+}
+
+.dark-btn-norm {
+  background: #000;
+  color: white;
   border: 1px solid black;
+  @apply py-2 px-7 rounded-full w-fit;
+}
+
+
+.dark-btn-norm:hover {
+  background: white;
+  color: black;
 }
 
 .dark-broadcast-btn {
   background: #000;
   color: white;
+  border: 1px solid black;
   @apply py-2 px-4 rounded-full w-fit;
 }
 
 .dark-broadcast-btn:hover {
   background: white;
   color: black;
-  border: 1px solid black;
 }
 .payment-methods {
   min-width: 600px;
   height: 200px;
   padding: 2rem;
   margin: auto
+}
+
+.login-logo {
+  @apply w-[38px] h-[38px] cursor-pointer;
+}
+
+.login-container {
+  min-width: 480px;
+  margin: auto;
+}
+
+.username-login-container {
+  border-top: 1px solid black;
+  padding-top: 1.5rem;
+}
+
+.comments-sect {
+  border: 1px solid black;
+}
+
+.page-heading {
+  @apply text-3xl tracking-widest font-semibold;
+}
+
+.list-tab {
+  
 }

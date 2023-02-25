@@ -3,20 +3,15 @@ import { Link } from "react-router-dom";
 import { ttlogo, fblogo, iglogo, twitchlogo } from "../img";
 import "./page-styles.css";
 
-function Login() {
+function SignUp() {
   return (
     <div className="login-layout flex">
       <div className="left-decor hidden sm:flex w-[40vw] h-[100vh] bg-black"></div>
 
       <div className="login-container flex flex-col gap-5 p-10">
-        <div className="text-3xl">Login</div>
-        <span>
-          Don't have an account?{" "}
-          <Link to="/sign-up" className="font-semibold hover:underline">
-            Sign up here
-          </Link>{" "}
-          instead.
-        </span>
+        <div className="text-3xl">Sign Up</div>
+          <span>
+          Already have an account? <Link to="/login" className="font-semibold hover:underline">Login here</Link> instead.</span>
         <div className="flex gap-10">
           <img src={fblogo} className="login-logo"></img>
           <img src={twitchlogo} className="login-logo"></img>
@@ -40,12 +35,12 @@ function Login() {
             className="input-field mt-1 w-auto mr-9 rounded-md border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
           <button className="dark-btn-norm mt-6">
-            <Link to="/dashboard">Login</Link>
-          </button>
+            <Link to="/dashboard">Sign Up</Link>
+            </button>
         </div>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default SignUp;

@@ -44,9 +44,9 @@ function NewBroadcast() {
         </div>
         <div className="flex flex-col gap-5 flex-1 relative">
           <div className="bg-black w-[300px] h-[510px] rounded-xl absolute right-20"></div>
-          <button className="dark-broadcast-btn flex gap-1 absolute bottom-10 right-20">
+          <button className="dark-broadcast-btn flex gap-1 absolute bottom-8 right-20">
             <PlayIcon className="w-[18px] h[20px]"></PlayIcon>
-            Start Broadcast
+            <Link to="/broadcasting">Start Broadcast</Link>
           </button>
         </div>
       </div>
