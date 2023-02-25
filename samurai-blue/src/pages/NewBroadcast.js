@@ -145,7 +145,7 @@ function NewBroadcast() {
                 height={360}
                 width={640}
               />
-              <div className="flex flex-col gap-4 w-[450px] flex-1">
+              <div className="flex flex-col gap-4 w-full flex-1">
                 <input
                   type="text"
                   name="broadcast-title"
@@ -158,7 +158,7 @@ function NewBroadcast() {
                   name="broadcast-description"
                   id="broadcast-desc"
                   placeholder="Description"
-                  className="input-field mt-1 mb-10 w-full rounded-md border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="input-field mt-1 mb-[97px] w-full rounded-md border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
               </div>
             </div>

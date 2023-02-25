@@ -56,6 +56,9 @@ function Products() {
               </div>
             );
           })}
+            <button className="dark-btn-norm absolute bottom-8 right-20">
+           Add Product
+          </button>
 
         </div>)}
     </div>

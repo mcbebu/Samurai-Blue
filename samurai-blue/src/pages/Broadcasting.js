@@ -33,14 +33,7 @@ function Broadcasting() {
   return (
     <div className="streaming-layout flex relative pt-8 px-3 pr-6 w-screen h-screen gap-6">
       <div className="flex flex-col">
-        <TwitchEmbed
-          channel="Kiarakitty"
-          hideControls
-          withChat={false}
-          height={360}
-          width={640}
-        />
-        <div className="flex justify-between">
+      <div className="flex justify-between">
           <div className="flex live-icon w-fit h-fit text-white rounded-full pl-1 pr-3 py-1 gap-1 my-2">
             <PlayCircleIcon className="w-[24px] h-[24px] stroke-white tracking-wider"></PlayCircleIcon>
             L I V E
@@ -50,8 +43,16 @@ function Broadcasting() {
             <Link to="/broadcasts">Stop Broadcast</Link>
           </button>
         </div>
+        <TwitchEmbed
+          channel="Kiarakitty"
+          hideControls
+          withChat={false}
+          height={360}
+          width={640}
+        />
+        
 
-        <div className="comments-sect w-[640px] h-[230px] px-4 py-4 rounded-xl overflow-auto flex flex-col-reverse gap-3">
+        <div className="comments-sect w-[640px] h-[205px] mt-7 px-4 py-4 rounded-xl overflow-auto flex flex-col-reverse gap-3">
           {comments.map((comment) => {
             console.log(comment);
             return (
