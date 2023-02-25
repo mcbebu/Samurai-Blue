@@ -1,0 +1,5 @@
+.nav-button {
+  @apply flex p-2 gap-2 border-solid border-black;
+}
+
+
