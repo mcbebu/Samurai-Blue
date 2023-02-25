@@ -16,7 +16,7 @@ function App() {
     const location = useLocation();
     return (
         <NinjaLiveContextProvider>
-            <div className="flex w-[100vw] h-[100vh] font-opensans">
+            <div className="flex w-full h-full font-opensans">
                 <div
                     className={`hidden ${
                         location.pathname.includes("login") ||

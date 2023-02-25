@@ -8,7 +8,7 @@ import { TwitchEmbed } from 'react-twitch-embed';
 
 function Broadcasting() {
   return (
-    <div className="streaming-layout flex relative pt-16 px-3 pr-6 pb-10 w-full gap-6">
+    <div className="streaming-layout flex relative pt-8 px-3 pr-6 w-full h-full gap-6">
       <div className="flex flex-col">
       <TwitchEmbed channel="Kiarakitty" hideControls withChat={false} height={360} width={640}/>
         <div className="flex justify-between">
@@ -44,7 +44,7 @@ function Broadcasting() {
 
       <div className="orders-sect w-full h-full rounded-xl bg-slate-100 flex flex-col">
         <div className="font-semibold tracking-wide p-7 text-xl">Orders</div>
-        <div className="orders-overflow-container w-full h-full overflow-auto flex flex-col">
+        <div className="orders-overflow-container w-full h-[35rem] overflow-auto flex flex-col">
           {/* map here */}
           <div className="order-tab bg-white rounded-xl p-5 mx-5 mb-5 w-auto h-fit flex flex-col">
             <div className="flex justify-between">

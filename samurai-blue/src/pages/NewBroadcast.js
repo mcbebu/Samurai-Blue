@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { PlayIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon, PlayIcon, PlusIcon } from "@heroicons/react/24/outline";
 
 import { TwitchEmbed } from "react-twitch-embed";
 import { fblogo, twitchlogo } from "../img";
@@ -8,10 +8,12 @@ import { useState, useEffect } from "react";
 import { BACKEND_DOMAIN, STREAM_BACKEND_DOMAIN } from "../util/api";
 
 function NewBroadcast() {
-  const clickHandler = async() => {
-    const data = await fetch(STREAM_BACKEND_DOMAIN + 'createStream', {method: "POST"});
+  const clickHandler = async () => {
+    const data = await fetch(STREAM_BACKEND_DOMAIN + "createStream", {
+      method: "POST",
+    });
     const fbStreamID = await data.json();
-    console.log(fbStreamID)
+    console.log(fbStreamID);
   };
   const [state, setState] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,18 +38,64 @@ function NewBroadcast() {
   }
 
   return (
-    <div>
+    <div className="w-screen h-full">
       {isLoading ? (
         ""
       ) : (
         <div>
           {toggleAddProducts ? (
-            <div className="absolute w-full h-full bg-black opacity-10"></div>
+            <div>
+              <div className={`flex justify-center`}>
+                <div className="z-20 bg-white rounded-lg w-[650px] h-[500px] absolute my-16 flex flex-col">
+                  <XMarkIcon
+                    className="w-[28px] h-[28px] mt-9 ml-9 cursor-pointer"
+                    onClick={() => setToggleAddProducts(false)}
+                  ></XMarkIcon>
+                  <div className="font-semibold tracking-wide text-xl ml-9 my-5">
+                    Products
+                  </div>
+
+                  {content.map((product) => {
+                    return (
+                      <div className="grid w-[90%] gap-5 ml-8 mb-5">
+                        <input
+                          type="checkbox"
+                          id="react-option"
+                          value={product.product_code}
+                          class="hidden peer"
+                          required=""
+                        />
+                        <label
+                          for="react-option"
+                          class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50 "
+                        >
+                          <div class="block">
+                            <div class="w-full text-lg font-semibold">
+                              {product.name}
+                            </div>
+                            <div class="w-full text-sm">
+                              {product.product_code}
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="absolute z-10 w-full h-full bg-black opacity-40"></div>
+            </div>
           ) : (
             ""
           )}
 
-          <div className="flex gap-4 justify-start w-full relative colored-bg px-9 ">
+          {/* <button value={product.product_code} className="list-table w-full flex flex-col gap-1 p-5 ml-5 bg-white relative rounded-lg">
+                        <div className="font-semibold">{product.id}</div>
+                        <div className="">{product.name}</div>
+                        <div className="">{product.product_code}</div>
+                        </button> */}
+
+          <div className="flex gap-4 justify-start relative colored-bg px-9 ">
             <div className="flex flex-col w-auto pt-12 gap-6">
               <div className="page-heading w-full">New Broadcast</div>
 
@@ -72,7 +120,7 @@ function NewBroadcast() {
                   name="broadcast-description"
                   id="broadcast-desc"
                   placeholder="Description"
-                  className="input-field mt-1 w-full rounded-md border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="input-field mt-1 w-full mb-10 rounded-md border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
               </div>
             </div>
@@ -84,7 +132,10 @@ function NewBroadcast() {
                 <div className="w-auto p-3 h-[5rem] bg-white rounded-lg mb-4">
                   <div>Sample Product</div>
                 </div>
-                <button className="dark-btn flex gap-1" onClick={() => setToggleAddProducts(true)}>
+                <button
+                  className="dark-btn flex gap-1"
+                  onClick={() => setToggleAddProducts(true)}
+                >
                   <PlusIcon className="w-[24px] h-[24px]"></PlusIcon>
                   Add Products
                 </button>

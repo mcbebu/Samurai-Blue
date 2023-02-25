@@ -23,7 +23,7 @@ function Settings() {
     };
 
     return (
-      <div className="flex flex-col w-full font-opensans py-16 px-12 gap-5 colored-bg">
+      <div className="flex flex-col w-full h-[100vh] font-opensans py-16 px-12 gap-5 colored-bg">
         <div className="page-heading w-full pb-3 border-b-2">Account Settings</div>
         <div className="acc-details rounded-lg shadow-lg relative w-full bg-white">
           <div>Account Details</div>

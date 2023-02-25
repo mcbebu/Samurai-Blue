@@ -30,7 +30,7 @@ function Orders() {
       {isLoading ? (
         ""
       ) : (
-        <div className="flex flex-col w-full h-full font-opensans py-16 px-12 gap-5 colored-bg">
+        <div className="flex flex-col w-full h-[100vh] font-opensans py-16 px-12 gap-5 colored-bg">
           <div className="flex justify-between align-middle">
             <div className="page-heading w-full pb-3 border-b-2">Orders</div>
           </div>
