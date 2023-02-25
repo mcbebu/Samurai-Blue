@@ -5,6 +5,15 @@ const prisma = new PrismaClient();
 const userData = [
     {
         username: "CLIENT",
+        stripeAccount: "",
+        from_name: "",
+        from_phone_number: "",
+        from_email: "",
+        from_address_postcode: "",
+        from_address_address1: "",
+        from_address_country: "",
+        paynow: false,
+        creditcard: false,
     },
     {
         username: "CLIENT1",
@@ -15,6 +24,41 @@ const userData = [
         from_address_postcode: "248923",
         from_address_address1: "3 Kay Siang Rd",
         from_address_country: "SG",
+        paynow: true,
+        creditcard: true,
+    },
+];
+
+const productData = [
+    {
+        name: "Change",
+        product_code: "ABCD",
+        quantity: 10,
+        price: 1000,
+        weightInGrams: 100,
+        SKU: "1234",
+        imageurl:
+            "https://www.ninjavan.co/static/8e42d7a6177eee2281bf94c9369ffca4/26e8b/desktop.jpg",
+    },
+    {
+        name: "Change1",
+        product_code: "ABCE",
+        quantity: 10,
+        price: 1000,
+        weightInGrams: 100,
+        SKU: "1234",
+        imageurl:
+            "https://www.ninjavan.co/static/8e42d7a6177eee2281bf94c9369ffca4/26e8b/desktop.jpg",
+    },
+    {
+        name: "Change2",
+        product_code: "ABCF",
+        quantity: 10,
+        price: 1000,
+        weightInGrams: 100,
+        SKU: "1234",
+        imageurl:
+            "https://www.ninjavan.co/static/8e42d7a6177eee2281bf94c9369ffca4/26e8b/desktop.jpg",
     },
 ];
 
@@ -25,6 +69,12 @@ async function main() {
             data: u,
         });
         console.log(`Created user with id: ${user.id}`);
+    }
+    for (const p of productData) {
+        const user = await prisma.product.create({
+            data: p,
+        });
+        console.log(`Created product with id: ${user.id}`);
     }
     console.log("Seeding finished");
 }

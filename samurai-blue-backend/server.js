@@ -36,6 +36,35 @@ app.use(
     })
 );
 
+app.get("/username/:username", async (req, res) => {
+    // const response = concerts[req.params.id];
+    // if (response === undefined) {
+    //     res.status(404).send();
+    // }
+    // console.log(response);
+    // res.end(JSON.stringify(response));
+    const { username } = req.params;
+
+    const user = await prisma.user.findUnique({
+        where: { username: username },
+    });
+    console.log(user);
+    res.json(user);
+});
+
+app.get("/products", async (req, res) => {
+    // const response = concerts[req.params.id];
+    // if (response === undefined) {
+    //     res.status(404).send();
+    // }
+    // console.log(response);
+    // res.end(JSON.stringify(response));
+
+    const product = await prisma.product.findMany();
+    console.log(product);
+    res.json(product);
+});
+
 // Use JSON parser for all non-webhook routes
 app.use((req, res, next) => {
     if (req.originalUrl === "/webhook") {
