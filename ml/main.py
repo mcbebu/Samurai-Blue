@@ -5,35 +5,56 @@ from functools import lru_cache
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 import psycopg2
+from typing import Union
 
-def query_db():
-    try:
-        connection = psycopg2.connect(database="xianxiangdatabase",
-                        host="119.8.165.76",
-                        user="root",
-                        password="P@ssw0rdninjavan",
-                        port="5432")
-        cursor = connection.cursor()
-        sql_query = 'select * from "Product";'
+from fastapi import FastAPI
+from pydantic import BaseModel
 
-        cursor.execute(sql_query)
-        print("Selecting rows from mobile table using cursor.fetchall")
-        product_list = cursor.fetchall()
+from fastapi.middleware.cors import CORSMiddleware
 
-        print("Print each row and columns data")
-        for row in product_list:
-            print("Id = ", row[0], )
-            print("Name = ", row[1])
-            print("Price  = ", row[2], "\n")
+origins = ["*"]
 
-    except (Exception, psycopg2.Error) as error:
-        print("Error while fetching data from PostgreSQL", error)
+class Item(BaseModel):
+    message: str
 
-    finally:
-        if connection:
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# def query_db():
+#     try:
+#         connection = psycopg2.connect(database="xianxiangdatabase",
+#                         host="119.8.165.76",
+#                         user="root",
+#                         password="P@ssw0rdninjavan",
+#                         port="5432")
+#         cursor = connection.cursor()
+#         sql_query = 'select * from "Product";'
+
+#         cursor.execute(sql_query)
+#         print("Selecting rows from mobile table using cursor.fetchall")
+#         product_list = cursor.fetchall()
+
+#         print("Print each row and columns data")
+#         for row in product_list:
+#             print("Id = ", row[0], )
+#             print("Name = ", row[1])
+#             print("Price  = ", row[2], "\n")
+
+#     except (Exception, psycopg2.Error) as error:
+#         print("Error while fetching data from PostgreSQL", error)
+
+#     finally:
+#         if connection:
+#             cursor.close()
+#             connection.close()
+#             print("PostgreSQL connection is closed")
 
 # function to compute lev distance
 def lev_dist(a, b):
@@ -55,14 +76,21 @@ def lev_dist(a, b):
 
     return min_dist(0, 0)
 
-def main(message):
-    # first handle the codes
-    reference_product_codes = ['BLUEM', 'COCO', 'HOTTIE', 'FBPORT']
-    reference_product_names = ['BLUEBERRY', 'COCONUT', 'HOTPLATE', 'FOOTBALL']
+# first handle the codes
+reference_product_codes = ['BLUEM', 'COCO', 'HOTTIE', 'FBPORT']
+reference_product_names = ['BLUEBERRY', 'COCONUT', 'HOTPLATE', 'FOOTBALL']
 
+# load model and predict sentiment
+with open('ninjavan_model.pkl', 'rb') as file:  
+    Pickled_LR_Model = pickle.load(file)
+
+with open('tfidf.pickle', 'rb') as file:  
+    vectoriser = pickle.load(file)
+
+
+def main(message):
     code = ""
     qty = 0
-
     # split message to parse thru properly
     message1 = message.split(" ")
 
@@ -80,15 +108,6 @@ def main(message):
                     break
     
     # now handle cases of product name
-
-    # load model and predict sentiment
-    with open('ninjavan_model.pkl', 'rb') as file:  
-        Pickled_LR_Model = pickle.load(file)
-
-    with open('tfidf.pickle', 'rb') as file:  
-        vectoriser = pickle.load(file)
-
-
     x_test = vectoriser.transform([message])
 
     # message = np.array(message)
@@ -111,7 +130,11 @@ def main(message):
                     code = reference_product_codes[i]
                     qty = 1
 
+    # print(time.process_time() - start)
     return (code, qty)
 
-print(main("BLUEM+1"))
-print(main("i love blueberrys"))
+@app.post("/message/")
+async def process_message(item: Item):
+    result = main(item.message)
+    
+    return result
