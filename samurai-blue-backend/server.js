@@ -232,8 +232,8 @@ app.post("/create-checkout-session", express.json(), async (req, res) => {
             ],
             payment_method_types: ["card", "paynow"],
             mode: "payment",
-            success_url: `${YOUR_DOMAIN}?success=true`,
-            cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+            success_url: `${YOUR_DOMAIN}/success`,
+            cancel_url: `${YOUR_DOMAIN}/canceled`,
             automatic_tax: { enabled: true },
             metadata: {
                 orderid: order.id,
@@ -279,6 +279,11 @@ app.post("/create-checkout-session", express.json(), async (req, res) => {
         res.status(500).json({ message: error.message });
     }
     // res.end(JSON.stringify({ url: `${session.url}` }));
+});
+
+app.get("/success", (req, res) => {
+    const path = resolve("client" + "/success.html");
+    res.sendFile(path);
 });
 
 const endpointSecret =
