@@ -62,7 +62,7 @@ textarea {
   background: #000;
   color: white;
   border: 1px solid black;
-  @apply pb-1 pt-[0.3rem] pl-1 pr-3 rounded-md w-fit;
+  @apply py-1 pl-1 pr-3 rounded-md w-fit;
 }
 
 .dark-broadcast-stop-btn:hover {
