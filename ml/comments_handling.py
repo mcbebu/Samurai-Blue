@@ -98,11 +98,10 @@ def main(message):
         sentiment = "negative"
     else:
         sentiment = "positive"
-    
-    print(sentiment)
 
     # then check if the product namea is in the message
-    for word in message:
+    message2 = message.split(" ")
+    for word in message2:
         if word.upper() in reference_product_names and sentiment == "positive":
             code = reference_product_codes[reference_product_names.index(word.upper())]
             qty = 1
@@ -116,4 +115,3 @@ def main(message):
 
 print(main("BLUEM+1"))
 print(main("i love blueberrys"))
-# query_db()
