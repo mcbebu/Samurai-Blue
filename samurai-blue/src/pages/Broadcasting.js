@@ -3,14 +3,43 @@ import "./page-styles.css";
 import { StopIcon, PlayCircleIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { fblogo, twitchlogo } from "../img";
-import { TwitchEmbed } from 'react-twitch-embed';
-
+import { TwitchEmbed } from "react-twitch-embed";
+import { useEffect, useState, useCallback } from "react";
+import axios from "axios";
 
 function Broadcasting() {
+  const [comments, setComments] = useState([]);
+
+  // useEffect(() => {
+
+  //     axios
+  //       .get("http://49.0.201.137:3000/messages")
+  //       .then((response) => {
+  //       setComments(response.data);
+  //     });
+
+  // }, []);
+
+  const updateState = useCallback(async () => {
+    axios.get("http://49.0.201.137:3000/messages").then((response) => {
+      setComments([...comments, ...response.data]);
+      console.log(response);
+    });
+  }, []);
+  useEffect(() => {
+    setInterval(updateState, 2000);
+  }, [updateState]);
+
   return (
-    <div className="streaming-layout flex relative pt-8 px-3 pr-6 w-full h-full gap-6">
+    <div className="streaming-layout flex relative pt-8 px-3 pr-6 w-screen h-screen gap-6">
       <div className="flex flex-col">
-      <TwitchEmbed channel="Kiarakitty" hideControls withChat={false} height={360} width={640}/>
+        <TwitchEmbed
+          channel="Kiarakitty"
+          hideControls
+          withChat={false}
+          height={360}
+          width={640}
+        />
         <div className="flex justify-between">
           <div className="flex live-icon w-fit h-fit text-white rounded-full pl-1 pr-3 py-1 gap-1 my-2">
             <PlayCircleIcon className="w-[24px] h-[24px] stroke-white tracking-wider"></PlayCircleIcon>
@@ -23,26 +52,26 @@ function Broadcasting() {
         </div>
 
         <div className="comments-sect w-[640px] h-[230px] px-4 py-4 rounded-xl overflow-auto flex flex-col-reverse gap-3">
-          {/* map here? */}
-          <div className="comment-line flex text-sm gap-2">
-            <img src={fblogo} className="w-[18px] h-[18px]" alt="facebook"></img>
-            <div className="font-semibold shrink-0">username :</div>
-            <div>sample comment</div>
-          </div>
-
-          <div className="comment-line flex text-sm gap-2">
-            <img src={twitchlogo} className="w-[18px] h-[18px]" alt="twitch"></img>
-            <div className="font-semibold shrink-0">username :</div>
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-              arcu mi, egestas eget enim volutpat, suscipit ultrices leo. Ut
-              vitae nisl pulvinar, vehicula ligula vitae, lacinia tortor. 
-            </div>
-          </div>
+          {comments.map((comment) => {
+            console.log(comment);
+            return (
+              <div className="comment-line flex text-sm gap-2">
+                <img
+                  src={comment.platform === "twitch" ? twitchlogo : fblogo}
+                  className="w-[18px] h-[18px]"
+                  alt="logo"
+                ></img>
+                <div className="font-semibold shrink-0">
+                  {comment.username} :
+                </div>
+                <div>{atob(comment.msg)}</div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      <div className="orders-sect w-full h-full rounded-xl bg-slate-100 flex flex-col">
+      <div className="orders-sect w-auto flex-1 h-auto mb-12 rounded-xl bg-slate-100 flex flex-col">
         <div className="font-semibold tracking-wide p-7 text-xl">Orders</div>
         <div className="orders-overflow-container w-full h-[35rem] overflow-auto flex flex-col">
           {/* map here */}

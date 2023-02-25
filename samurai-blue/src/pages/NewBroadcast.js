@@ -7,6 +7,32 @@ import { fblogo, twitchlogo } from "../img";
 import { useState, useEffect } from "react";
 import { BACKEND_DOMAIN, STREAM_BACKEND_DOMAIN } from "../util/api";
 
+const PAGE_TOKEN =
+  "EAAHycBwKj80BAAh3qkWPbumMNPoTZAxM44fufZARcFMHqzQnZCyL3ZA9lHFnOVZABMa0QE37YaUPyMflJvElZAewZC4tU7w4ukPZBIRzOfdlNjR7mJSItZBoDLG4g2NKGmq6ghBWSyZAwulVUT8gFUf9pT067eA8w3f2Y84sG5sP5RZCZCQAdwdFP2icaosHFv0ZBJw6ODvZCH9ZC3UQc8BAHd98iLiJz0YdQQbCD0ZD";
+const source = new EventSource(
+  "https://streaming-graph.facebook.com/114855184867579/live_comments?access_token=" +
+    PAGE_TOKEN +
+    "&comment_rate=one_per_two_seconds"
+);
+source.onmessage = function (event) {
+  // const result = event.data.json();
+  const data = JSON.parse(event.data);
+
+  console.log(data.message);
+  console.log(typeof data.message);
+
+  fetch(STREAM_BACKEND_DOMAIN + "postComment", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      msg: data.message,
+      username: data.from.name,
+      timestamp: Math.floor(Date.now() / 1000),
+      userid: data.from.id,
+    }),
+  });
+};
+
 function NewBroadcast() {
   const clickHandler = async () => {
     const data = await fetch(STREAM_BACKEND_DOMAIN + "createStream", {
@@ -44,14 +70,14 @@ function NewBroadcast() {
   }
 
   return (
-    <div className="w-screen h-[full]">
+    <div className="w-screen h-screen">
       {isLoading ? (
         ""
       ) : (
         <div>
           {toggleAddProducts ? (
             <div>
-              <div className={`flex justify-center`}>
+              <div className="flex justify-center w-screen h-screen">
                 <div className="z-20  bg-white rounded-lg w-[650px] h-[500px] absolute my-16 flex flex-col">
                   <XMarkIcon
                     className="w-[28px] h-[28px] mt-9 ml-9 cursor-pointer"

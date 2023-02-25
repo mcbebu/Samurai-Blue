@@ -77,6 +77,12 @@ textarea {
   margin: auto
 }
 
+.acc-details {
+  min-width: 600px;
+  padding: 2rem;
+  margin: auto
+}
+
 .login-logo {
   @apply w-[38px] h-[38px] cursor-pointer;
 }
