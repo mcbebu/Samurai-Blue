@@ -1,5 +1,6 @@
 const tmi = require('tmi.js');
 const { Client } = require('pg')
+const axios = require('axios');
 
 const dbClient = new Client({
 	host: '119.8.165.76',
@@ -25,6 +26,18 @@ async function connect(message, displayName, userId) {
 	}
 }
 
+async function checkAPI(message) {
+	await axios.post('http://159.138.108.231:8080/message', {
+		'message': message
+	})
+	.then(function (response) {
+		console.log(response.data[0]);
+		console.log(response.data[1]);
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
 
 const channel = 'kiaraakitty';
 
@@ -35,7 +48,12 @@ const client = new tmi.Client({
 client.connect();
 
 client.on('message', (channel, tags, message, self) => {
+	// Stores into database
 	connect(message, tags['display-name'], tags['user-id']);
+	// Checks for right keywords
+	// Call API to send message
+	checkAPI(message)	
+
 	console.log(`name:${tags['display-name']} user_id:${tags['user-id']} msg:${message}`);
 });
 
