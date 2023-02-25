@@ -33,7 +33,7 @@ function Products() {
       {isLoading ? (
         ""
       ) : (
-        <div className="flex flex-col w-auto h-[100vh] font-opensans py-16 px-12 gap-5 colored-bg">
+        <div className="flex flex-col w-[80vw] overflow-auto h-[100vh] font-opensans py-16 px-12 gap-5 colored-bg">
           <div className="flex justify-between align-middle relative">
             <div className="page-heading w-full pb-3 border-b-2">Products</div>
         
