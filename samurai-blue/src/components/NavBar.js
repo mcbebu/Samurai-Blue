@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import "./comp-styles.css"
-import { BriefcaseIcon, PlayCircleIcon, ClipboardDocumentListIcon, ArchiveBoxIcon, Cog8ToothIcon } from "@heroicons/react/24/outline"
+import { ArrowLeftOnRectangleIcon, BriefcaseIcon, PlayCircleIcon, ClipboardDocumentListIcon, ArchiveBoxIcon, Cog8ToothIcon } from "@heroicons/react/24/outline"
 
 
 function NavBar() {
@@ -25,9 +25,16 @@ function NavBar() {
         <ArchiveBoxIcon className='w-[24px] h-[24px]'></ArchiveBoxIcon>
         <Link to="/products">Products</Link>
       </div>
-      <div className={`nav-button absolute bottom-8 left-5 ${location.pathname.includes("/settings") ? "border-l-2" : ""}`}>
+      <div className='bottom-icons absolute bottom-8 left-5'>
+
+      <div className={`nav-button ${location.pathname.includes("/settings") ? "border-l-2" : ""}`}>
         <Cog8ToothIcon className='w-[24px] h-[24px]'></Cog8ToothIcon>
         <Link to="/settings">Settings</Link>
+        </div>
+        <div className={`nav-button ${location.pathname.includes("/login") ? "border-l-2" : ""}`}>
+        <ArrowLeftOnRectangleIcon className='w-[24px] h-[24px]'></ArrowLeftOnRectangleIcon>
+        <Link to="/login">Logout</Link>
+      </div>
       </div>
     </div>
   )

@@ -1,3 +1,48 @@
+:root {
+  --ninja-red: #c2002f;
+  --ninja-grey: #231f21;
+}
+
+textarea {
+  resize: none;
+}
+
+.featured-products {
+
+  border-top: 1px solid black;
+
+}
+
+.linked-platforms {
+  
+  border-top: 1px solid black;
+
+}
+
+.dark-btn {
+  background: #000;
+  color: white;
+  @apply py-2 pl-3 pr-5 rounded-full w-fit;
+}
+
+
+.dark-btn:hover {
+  background: white;
+  color: black;
+  border: 1px solid black;
+}
+
+.dark-broadcast-btn {
+  background: #000;
+  color: white;
+  @apply py-2 px-4 rounded-full w-fit;
+}
+
+.dark-broadcast-btn:hover {
+  background: white;
+  color: black;
+  border: 1px solid black;
+}
 .payment-methods {
   min-width: 600px;
   height: 200px;
