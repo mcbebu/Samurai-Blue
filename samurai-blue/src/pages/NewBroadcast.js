@@ -5,10 +5,14 @@ import { PlayIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { TwitchEmbed } from "react-twitch-embed";
 import { fblogo, twitchlogo } from "../img";
 import { useState, useEffect } from "react";
-import { BACKEND_DOMAIN } from "../util/api";
+import { BACKEND_DOMAIN, STREAM_BACKEND_DOMAIN } from "../util/api";
 
 function NewBroadcast() {
-  const clickHandler = () => {};
+  const clickHandler = async() => {
+    const data = await fetch(STREAM_BACKEND_DOMAIN + 'createStream', {method: "POST"});
+    const fbStreamID = await data.json();
+    console.log(fbStreamID)
+  };
   const [state, setState] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [toggleAddProducts, setToggleAddProducts] = useState(false);
