@@ -11,6 +11,9 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { Prisma } = require("@prisma/client");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const axios = require("axios");
+const PAGE_TOKEN =
+    "EAAHycBwKj80BAG3YyzdwRKWUtZBZBBZBOif0MhZCZCNQim4UD6ci4mdubfr8fCaa3qfiUti0WeaDfMcNuJkoP8sRUZCJboggqbOTavfguCuH4tPCfPZCpEbfYQzMMZBd8VF97LvoigGX0uauPxVAZB4tEaZC4dqGZCHl1ZAUNZBt49ajeWQZBnjIJi7TOTVpkVqnwwKRZBtvs6ewL38imQzcJVmjUleRtZCI89eAJnEZD";
 
 const app = express();
 app.use(express.static("public"));
@@ -205,9 +208,9 @@ app.post("/create-checkout-session", express.json(), async (req, res) => {
             sessionName: req.body.sessionname,
         },
     });
-    // console.log(product);
-    // console.log(order);
-    // console.log(req.body);
+    console.log(product);
+    console.log(order);
+    console.log(req.body);
 
     // create link
     // add custom fields
@@ -236,22 +239,59 @@ app.post("/create-checkout-session", express.json(), async (req, res) => {
                 orderid: order.id,
             },
             customer_creation: "if_required",
+            custom_fields: [
+                {
+                    key: "phonenumber",
+                    label: { type: "custom", custom: "Phone Number" },
+                    type: "text",
+                },
+                {
+                    key: "address",
+                    label: { type: "custom", custom: "Shipping Address" },
+                    type: "text",
+                },
+            ],
         },
         { stripeAccount: "acct_1MfJkwJVJJeB1km6" }
     );
     // call martin endpoint to send message
-    res.end(JSON.stringify({ url: `${session.url}` }));
+    // const msg = "hi lmao";
+    const shortened = await axios.post(
+        "https://api.tinyurl.com/create?api_token=N0ivxMUYBSxmjx5rb61TYjlggJOxjkgOQLjcuchvCwwaxjG4B1fv4v3zSLAO",
+        {
+            url: `${session.url}`,
+            domain: "tinyurl.com",
+            alias: `${session.url}`.slice(42, 52),
+            // expires_at: "2023-10-25 10:11:12",
+        }
+    );
+    // const body = await shortened.json();
+    console.log(shortened);
+    try {
+        const lmao = await axios.post(
+            "https://graph.facebook.com/v16.0/110513338639515/messages?recipient={'id':6440338032660868}&messaging_type=UPDATE&message={'text':'" +
+                `${shortened.data.data.tiny_url}` +
+                "'}&access_token=" +
+                PAGE_TOKEN
+        );
+        res.status(200).json({ message: "message sent!" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+    // res.end(JSON.stringify({ url: `${session.url}` }));
 });
 
 const endpointSecret =
     "whsec_0a1aafb35a8e08c9f154e54ead53d42f682348db0796a0379c9658a868ec57e0";
 
 // update order to completed
-//
+// create a ninjavan order
+// post to the ninjavan api
+// send email?
 app.post(
     "/webhook",
     express.raw({ type: "application/json" }),
-    (request, response) => {
+    async (request, response) => {
         const sig = request.headers["stripe-signature"];
 
         let event;
@@ -277,7 +317,40 @@ app.post(
                 break;
             // ... handle other event types
             case "checkout.session.completed":
-                console.log(event.data.object.metadata);
+                console.log("orderid: " + event.data.object.metadata.orderid);
+                console.log(
+                    "phone number: " +
+                        event.data.object.custom_fields[0].text.value
+                );
+                console.log(
+                    "address: " + event.data.object.custom_fields[1].text.value
+                );
+                // update order status to paid
+                const updateOrder = await prisma.orders.update({
+                    where: {
+                        id: Number(event.data.object.metadata.orderid),
+                    },
+                    data: {
+                        status: "Checkout Completed",
+                    },
+                });
+                // create ninjavan order
+                // i need
+                //   service_type                   String
+                //   service_level                  String
+                //   merchant_order_number          String //within reference object
+                //   order                          Orders? @relation(fields: [ordersId], references: [id])
+                //   ordersId                       Int?
+                //   to_name                        String
+                //   to_phone_number                String
+                //   to_email                       String
+                //   to_address_postcode            String
+                //   to_address_address1            String
+                //   to_address_country             String
+                //   collection_point               String
+                //   parcel_job_delivery_start_date String
+                //   parcel_job_delivery_timeslot   String
+                //   parcel_job_is_pickup_required  Boolean
 
                 break;
             case "checkout.session.async_payment_succeeded":
