@@ -190,7 +190,7 @@ function NewBroadcast() {
                   <div className="font-light px-1">
                     Select at least one platform to broadcast to.
                   </div>
-                  <div className="flex flex-col">
+                  <div className="flex pt-1 flex-col">
                     <div className="flex p-3 gap-4">
                       <img src={fblogo} className="w-[24px] h-[24px]"></img>
                       <label class="relative inline-flex items-center cursor-pointer">
