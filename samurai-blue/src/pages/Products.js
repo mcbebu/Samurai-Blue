@@ -1,5 +1,6 @@
 import React from "react";
 import { shirt1 } from "../img";
+import {PencilSquareIcon} from "@heroicons/react/24/outline"
 
 function Products() {
   return (
@@ -7,9 +8,16 @@ function Products() {
       <div className="flex justify-between align-middle">
         <div className="page-heading w-full pb-3 border-b-2">Products</div>
       </div>
+      {/* <ul className="table-heading flex font-semibold">
+
+      </ul> */}
       {/* use map here */}
       <div className="list-tab w-full flex flex-col p-7 gap-3 bg-white relative rounded-lg">
-        <div className="tab-id font-semibold">Product ID</div>
+        <div className="flex justify-between">
+          <div className="tab-id font-semibold">Product ID</div>
+          <PencilSquareIcon className="w-[24px] h-[24px] cursor-pointer"></PencilSquareIcon>
+
+        </div>
         <div className="flex gap-10 align-middle">
 
         <div className="product-img-container w-[7rem] h-[7rem] bg-black rounded-md shadow-xl">

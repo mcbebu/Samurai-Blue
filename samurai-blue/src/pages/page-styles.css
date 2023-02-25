@@ -57,6 +57,19 @@ textarea {
   background: white;
   color: black;
 }
+
+.dark-broadcast-stop-btn {
+  background: #000;
+  color: white;
+  border: 1px solid black;
+  @apply pb-1 pt-[0.3rem] pl-1 pr-3 rounded-md w-fit;
+}
+
+.dark-broadcast-stop-btn:hover {
+  background: #D40000;
+  border: 1px solid #D40000;
+}
+
 .payment-methods {
   min-width: 600px;
   height: 200px;
@@ -86,6 +99,16 @@ textarea {
   @apply text-3xl tracking-widest font-semibold;
 }
 
-.list-tab {
-  
+.list-table {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.live-icon {
+  background-color: #D40000;
+}
+
+
+.comment-line {
+  align-items: top;
 }

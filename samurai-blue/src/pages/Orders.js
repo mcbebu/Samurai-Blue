@@ -9,7 +9,7 @@ function Orders() {
       {/* use map here */}
       <div className="list-tab w-full flex flex-col p-7 gap-3 bg-white relative rounded-lg">
         <div className="tab-id font-semibold">Order ID</div>
-        <div className="flex gap-20 align-middle">
+        <div className="flex gap-30 align-middle">
         <div className="flex flex-col gap-1">
           <div className="tab-name">Username</div>
           <div className="tab-name">Platform</div>

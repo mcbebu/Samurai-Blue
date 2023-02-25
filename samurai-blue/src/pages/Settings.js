@@ -9,12 +9,18 @@ function Settings() {
 
 
   return (
+
+    <div className="flex flex-col w-full font-opensans py-16 px-12 gap-5 bg-gray-100">
+      <div className="flex justify-between align-middle">
+        <div className="page-heading w-full pb-3 border-b-2">Account Settings</div>
+      </div>
+
+
     <div className="payment-container flex flex-col">
-      <div>Account Settings</div>
       <div className="acc-details">Account Details</div>
-      <div className="payment-methods rounded-lg  shadow-lg relative">
+      <div className="payment-methods rounded-lg bg-white relative">
         <div>Payment Methods</div>
-        <button onClick={handleConnectStripe()} className="absolute top-3 right-3 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-3 px-4 my-2 mx-2 border border-blue-500 hover:border-transparent rounded bg-white text-sm">
+        <button onClick={handleConnectStripe} className="absolute top-3 right-3 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-3 px-4 my-2 mx-2 border border-blue-500 hover:border-transparent rounded bg-white text-sm">
           Connect To Stripe
         </button>
 
@@ -35,7 +41,8 @@ function Settings() {
           </div>
         </div>
       </div>
-    </div>
+        </div>
+        </div>
   );
 }
 
