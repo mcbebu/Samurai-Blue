@@ -1,6 +1,5 @@
-
-
-.nav-button:focus-within {
-  border-left: 2px solid #000;
+.nav-button {
+  @apply flex p-2 gap-2 border-solid border-black;
 }
+
 
