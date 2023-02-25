@@ -11,16 +11,21 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Broadcasting from "./pages/Broadcasting";
 import NinjaLiveContextProvider from "./ticketing-context";
+import CheckoutForm from "./pages/CheckoutForm";
+
+// import { useState } from "react";
 
 function App() {
     const location = useLocation();
+
     return (
         <NinjaLiveContextProvider>
             <div className="flex w-full h-[100vh] justify-between font-opensans">
                 <div
                     className={`hidden ${
                         location.pathname.includes("login") ||
-                        location.pathname.includes("sign-up")
+                        location.pathname.includes("sign-up") ||
+                        location.pathname.includes("checkout")
                             ? "hidden"
                             : "sm:flex"
                     }`}
@@ -43,6 +48,7 @@ function App() {
                         path="broadcasting"
                         element={<Broadcasting />}
                     ></Route>
+                    <Route path="checkout" element={<CheckoutForm />}></Route>
                 </Routes>
             </div>
         </NinjaLiveContextProvider>

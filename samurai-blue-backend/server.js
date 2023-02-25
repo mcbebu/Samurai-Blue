@@ -182,6 +182,30 @@ app.get("/onboard-user/refresh", async (req, res) => {
     }
 });
 
+const calculateOrderAmount = (items) => {
+    // Replace this constant with a calculation of the order's amount
+    // Calculate the order total on the server to prevent
+    // people from directly manipulating the amount on the client
+    return 1400;
+};
+
+app.post("/create-payment-intent", async (req, res) => {
+    const { items } = req.body;
+
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: calculateOrderAmount(items),
+        currency: "sgd",
+        automatic_payment_methods: {
+            enabled: true,
+        },
+    });
+
+    res.send({
+        clientSecret: paymentIntent.client_secret,
+    });
+});
+
 // Creating prebuilt stripe checkout, product defined on the fly
 app.post("/create-checkout-session", express.json(), async (req, res) => {
     // can add the specific tickets that were assigned in the metadata
@@ -209,12 +233,61 @@ app.post("/create-checkout-session", express.json(), async (req, res) => {
             automatic_tax: { enabled: true },
             metadata: {
                 orderid: req.body.orderid,
+                sessionid: req.body.sessionid,
             },
             customer_creation: "if_required",
         },
-        { stripeAccount: "acct_1MfJkwJVJJeB1km6" }
+        { stripeAccount: req.body.connected_account }
     );
     res.end(JSON.stringify({ url: `${session.url}` }));
 });
+
+const endpointSecret =
+    "whsec_0a1aafb35a8e08c9f154e54ead53d42f682348db0796a0379c9658a868ec57e0";
+
+app.post(
+    "/webhook",
+    express.raw({ type: "application/json" }),
+    (request, response) => {
+        const sig = request.headers["stripe-signature"];
+
+        let event;
+
+        try {
+            // request.body param takes in buffer instead of parsed data, so must use raw middleware and cant define globally
+            event = stripe.webhooks.constructEvent(
+                request.body,
+                sig,
+                endpointSecret
+            );
+            console.log("event success");
+        } catch (err) {
+            response.status(400).send(`Webhook Error: ${err.message}`);
+            return;
+        }
+
+        // Handle the event
+        switch (event.type) {
+            case "payment_intent.succeeded":
+                const paymentIntentSucceeded = event.data.object;
+                // Then define and call a function to handle the event payment_intent.succeeded
+                break;
+            // ... handle other event types
+            case "checkout.session.completed":
+                console.log(event.data.object.metadata);
+
+                break;
+            case "checkout.session.async_payment_succeeded":
+                console.log(event.data.object.metadata);
+
+                break;
+            default:
+                console.log(`Unhandled event type ${event.type}`);
+        }
+
+        // Return a 200 response to acknowledge receipt of the event
+        response.send();
+    }
+);
 
 app.listen(4242, () => console.log("Running on port 4242"));
