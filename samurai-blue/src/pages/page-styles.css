@@ -81,3 +81,11 @@ textarea {
 .comments-sect {
   border: 1px solid black;
 }
+
+.page-heading {
+  @apply text-3xl tracking-widest font-semibold;
+}
+
+.list-tab {
+  
+}
