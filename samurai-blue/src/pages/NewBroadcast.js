@@ -38,12 +38,12 @@ function NewBroadcast() {
       ) : (
         <div>
           {toggleAddProducts ? (
-            <div className="absolute w-full h-full bg-black opacity-5"></div>
+            <div className="absolute w-full h-full bg-black opacity-10"></div>
           ) : (
             ""
           )}
 
-          <div className="flex gap-4 justify-start w-full relative colored-bg pl-9">
+          <div className="flex gap-4 justify-start w-full relative colored-bg px-9 ">
             <div className="flex flex-col w-auto pt-12 gap-6">
               <div className="page-heading w-full">New Broadcast</div>
 
@@ -80,7 +80,7 @@ function NewBroadcast() {
                 <div className="w-auto p-3 h-[5rem] bg-white rounded-lg mb-4">
                   <div>Sample Product</div>
                 </div>
-                <button className="dark-btn flex gap-1">
+                <button className="dark-btn flex gap-1" onClick={() => setToggleAddProducts(true)}>
                   <PlusIcon className="w-[24px] h-[24px]"></PlusIcon>
                   Add Products
                 </button>
