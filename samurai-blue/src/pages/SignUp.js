@@ -13,10 +13,10 @@ function SignUp() {
           <span>
           Already have an account? <Link to="/login" className="font-semibold hover:underline">Login here</Link> instead.</span>
         <div className="flex gap-10">
-          <img src={fblogo} className="login-logo"></img>
-          <img src={twitchlogo} className="login-logo"></img>
-          <img src={ttlogo} className="login-logo"></img>
-          <img src={iglogo} className="login-logo"></img>
+          <img src={fblogo} className="login-logo" alt="facebook"></img>
+          <img src={twitchlogo} className="login-logo" alt="twitch"></img>
+          <img src={ttlogo} className="login-logo" alt="tiktok"></img>
+          <img src={iglogo} className="login-logo" alt="instagram"></img>
         </div>
         <div className="username-login-container flex flex-col gap-3">
           <div>Or with username</div>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function Broadcasts() {
   return (
-    <div className="flex flex-col w-full font-opensans py-16 px-12 gap-5 bg-gray-100">
+    <div className="flex flex-col w-full font-opensans py-16 px-12 gap-5 colored-bg">
       <div className="flex justify-between align-middle relative">
         <div className="page-heading w-full pb-3 border-b-2">Broadcasts</div>
         <Link

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function Dashboard() {
   return (
-    <div className="flex flex-col w-full font-opensans py-16 px-12 gap-5">
+    <div className="flex flex-col w-full h-full overflow-auto font-opensans py-16 px-12 gap-5">
       <div className="flex justify-between align-middle relative">
         <div className="page-heading w-full pb-3">Dashboard</div>
         <Link

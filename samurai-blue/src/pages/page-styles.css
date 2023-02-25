@@ -112,3 +112,7 @@ textarea {
 .comment-line {
   align-items: top;
 }
+
+.colored-bg {
+  background-color: #EFF2F8;
+}
