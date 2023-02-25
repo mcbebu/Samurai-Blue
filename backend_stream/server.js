@@ -1,12 +1,15 @@
+const cors = require('cors');
 const express = require('express');
 const {FB, FacebookApiException} = require('fb');
 const axios = require('axios');
 
-const USER_TOKEN = process.env.USER_TOKEN;
-const PAGE_TOKEN = process.env.PAGE_TOKEN;
-const APP_TOKEN = process.env.APP_TOKEN;
+const USER_TOKEN = 'EAAHycBwKj80BANoQde3YctnEexxd5VscZB5ZAKXIjZCGovZB3mHpcv9YPGdY3VlaRv6RlfYolGqJj6yYHADLoMKcZBJL2ZBZAzPDX5CdQHQFDouLlZBct0SzSQPTdYkxcKYPXymIZAYPstVFLp60cABmyXHhLNftSA4uzokZBWcXuHpZCHWz50Wxp8vJBgVCk1ev21wlAL7PatYrqJhBAsGZBZCYyywBaSh0PbRT5AVmlLkUGx3DMh9QK5CzJiLE7UZCehddeCyJJNrt2GRwZDZD'
+const PAGE_TOKEN = 'EAAHycBwKj80BAPe22l95fQ56dZCJcyZBhLzzHr6ZBNqmp6YK3Imf3ucwaHMqy0D2uLiZBzmFqeLvIovYvgRSVQvn4kC0GSeGddOb74HeS3tw2AyRtohMbA3vGSZAZB61qtZBUmqPOZAI4mZBe6ToMhEkcEO8vZBugQKZB45IyyqZAQcLA1os5ZCIUiJnZCinjpMNXo0lZBQ65bnXxaOzEiakbWbYZCFdB7lGHFO3G3gZD';
+const APP_TOKEN = '548038297423821|BEc-ZSwfoLVme67qjLZ3UwBBAhE'
+
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const streamRouter = require('./routes/stream.js')
