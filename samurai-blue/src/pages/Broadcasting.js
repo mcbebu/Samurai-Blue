@@ -23,7 +23,7 @@ function Broadcasting() {
   const updateState = useCallback(async () => {
     axios.get("http://49.0.201.137:3000/messages").then((response) => {
       setComments([...comments, ...response.data]);
-      console.log(response);
+      // console.log(response);
     });
   }, []);
   useEffect(() => {
@@ -53,7 +53,7 @@ function Broadcasting() {
 
         <div className="comments-sect w-[640px] h-[230px] px-4 py-4 rounded-xl overflow-auto flex flex-col-reverse gap-3">
           {comments.map((comment) => {
-            console.log(comment);
+            // console.log(comment);
             return (
               <div className="comment-line flex text-sm gap-2">
                 <img

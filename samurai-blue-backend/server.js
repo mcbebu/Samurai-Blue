@@ -6,6 +6,7 @@ const uuidv4 = require("uuid").v4;
 const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./.env" });
+const cors = require('cors');
 // This is your test secret API key.
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { Prisma } = require("@prisma/client");
@@ -13,7 +14,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const axios = require("axios");
 const PAGE_TOKEN =
-    "EAAHycBwKj80BAG3YyzdwRKWUtZBZBBZBOif0MhZCZCNQim4UD6ci4mdubfr8fCaa3qfiUti0WeaDfMcNuJkoP8sRUZCJboggqbOTavfguCuH4tPCfPZCpEbfYQzMMZBd8VF97LvoigGX0uauPxVAZB4tEaZC4dqGZCHl1ZAUNZBt49ajeWQZBnjIJi7TOTVpkVqnwwKRZBtvs6ewL38imQzcJVmjUleRtZCI89eAJnEZD";
+    "EAAHycBwKj80BAIG8xFM6YC4UNAAq4KXdW9tbVAxFoYkMekpunbCsjp57jVJCvG6aqpZBMoL3sQljWGPR0WW3nb3JZAbF3LrfQS94pqHOrGnx5vWJEED5hZC8Cqx0PdZANlEXwJsZCQ0wCMaGuTMT9Rc32CnjxpklsZCFLpRttlz2OyihJdnx6v6Lwxej64pvAZAPqLIPXmjwJ0V0l5elA3mBCZBoibvHalAZD";
 
 const app = express();
 app.use(express.static("public"));
@@ -190,6 +191,7 @@ app.get("/onboard-user/refresh", async (req, res) => {
 // Creating prebuilt stripe checkout, product defined on the fly
 app.post("/create-checkout-session", express.json(), async (req, res) => {
     // find product
+    console.log(req.body)
     const product = await prisma.product.findUnique({
         where: { product_code: req.body.product_code },
     });
