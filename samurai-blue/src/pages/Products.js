@@ -2,8 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { BACKEND_DOMAIN } from "../util/api";
 import "./page-styles.css";
-import { PlayIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+
 
 
 function Products() {
