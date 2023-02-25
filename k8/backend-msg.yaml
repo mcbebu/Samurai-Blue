@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-msg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-msg
+  template:
+    metadata:
+      labels:
+        app: backend-msg
+    spec:
+      containers:
+      - image: ninjavan-samuraiblue/backend-msg:v2
+        name: backend-msg
+
+---
+apiVersion: v1 
+kind: Service 
+metadata: 
+  annotations:   
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.autocreate: 
+        '{
+            "type": "public",
+            "bandwidth_name": "cce-bandwidth-2551163379627",
+            "bandwidth_chargemode":"traffic",
+            "bandwidth_size": 5,
+            "bandwidth_sharetype": "PER",
+            "eip_type": "5_bgp",
+            "name": "james2"
+        }'
+  labels: 
+    app: backend-msg 
+  name: backend-msg 
+spec: 
+  ports: 
+  - name: service1
+    port: 3000
+    protocol: TCP 
+    targetPort: 3000
+  selector: 
+    app: backend-msg 
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-twitch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-twitch
+  template:
+    metadata:
+      labels:
+        app: backend-twitch
+    spec:
+      containers:
+      - image: ninjavan-samuraiblue/backend-twitch:v3
+        name: backend-twitch

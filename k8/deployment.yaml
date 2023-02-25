@@ -1,31 +1,109 @@
+# ---
+# apiVersion: v1 
+# kind: Service 
+# metadata: 
+#   annotations:   
+#     kubernetes.io/elb.class: union
+#     kubernetes.io/elb.autocreate: 
+#         '{
+#             "type": "public",
+#             "bandwidth_name": "cce-bandwidth-1551163379627",
+#             "bandwidth_chargemode":"traffic",
+#             "bandwidth_size": 5,
+#             "bandwidth_sharetype": "PER",
+#             "eip_type": "5_bgp",
+#             "name": "james"
+#         }'
+#   name: nginx 
+# spec: 
+#   ports: 
+#   - name: service0 
+#     port: 80
+#     protocol: TCP 
+#     targetPort: nginx
+#   type: LoadBalancer
+
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: nginx
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: nginx
+#   template:
+#     metadata:
+#       labels:
+#         app: nginx
+#     spec:
+#       containers:
+#       - image: nginx 
+#         name: nginx
+
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: backend-twitch
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: backend-twitch
+#   template:
+#     metadata:
+#       labels:
+#         app: backend-twitch
+#     spec:
+#       containers:
+#       - image: ninjavan-samuraiblue/backend-twitch:v2
+#         name: backend-twitch
+
 ---
-apiVersion: v1 
-kind: Service 
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
 metadata: 
-  annotations:   
+  name: nginx-service-ingress
+  annotations: 
     kubernetes.io/elb.class: union
+    kubernetes.io/ingress.class: cce
+    kubernetes.io/elb.port: '80'
     kubernetes.io/elb.autocreate: 
-        '{
-            "type": "public",
-            "bandwidth_name": "cce-bandwidth-1551163379627",
-            "bandwidth_chargemode":"traffic",
-            "bandwidth_size": 5,
-            "bandwidth_sharetype": "PER",
-            "eip_type": "5_bgp",
-            "name": "james"
+      '{
+          "type":"public",
+          "bandwidth_name":"cce-bandwidth-2551163379629",
+          "bandwidth_chargemode":"traffic",
+          "bandwidth_size":5,
+          "bandwidth_sharetype":"PER",
+          "eip_type":"5_bgp"
         }'
-  labels: 
-    app: nginx 
-  name: nginx 
-spec: 
-  ports: 
-  - name: service0 
-    port: 80
-    protocol: TCP 
+spec:
+  rules: 
+  - host: ''
+    http: 
+      paths: 
+      - path: '/'
+        backend: 
+          serviceName: nginx-service
+          servicePort: 80
+        property:
+          ingress.beta.kubernetes.io/url-match-mode: STARTS_WITH
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
     targetPort: 80
-  selector: 
-    app: nginx 
-  type: LoadBalancer
+  selector:
+    app: nginx
 
 ---
 apiVersion: apps/v1
@@ -45,27 +123,50 @@ spec:
       containers:
       - image: nginx 
         name: nginx
-      imagePullSecrets:
-      - name: default-secret
 
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: backend-twitch
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: backend-twitch
-  template:
-    metadata:
-      labels:
-        app: backend-twitch
-    spec:
-      containers:
-      - image: ninjavan-samuraiblue/backend-twitch:v1
-        name: backend-twitch
+    
+# ---
+# apiVersion: v1 
+# kind: Service 
+# metadata: 
+#   annotations:   
+#     kubernetes.io/elb.class: union
+#     kubernetes.io/elb.autocreate: 
+#         '{
+#             "type": "public",
+#             "bandwidth_name": "cce-bandwidth-2551163379628",
+#             "bandwidth_chargemode":"traffic",
+#             "bandwidth_size": 5,
+#             "bandwidth_sharetype": "PER",
+#             "eip_type": "5_bgp",
+#             "name": "backend-msg"
+#         }'
+#   labels: 
+#     app: backend-msg  
+#   name: backend-msg 
+# spec: 
+#   ports: 
+#   - name: service1
+#     port: 3000
+#     protocol: TCP 
+#     targetPort: 3000
+#   type: LoadBalancer
 
-
-# docker tag [{Image Name}:{Tag name}] swr.ap-southeast-3.myhuaweicloud.com/{Organization Name}/{Image Name}:{Tag name}
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: backend-msg
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: backend-msg
+#   template:
+#     metadata:
+#       labels:
+#         app: backend-msg
+#     spec:
+#       containers:
+#       - image: ninjavan-samuraiblue/backend-messages:v1
+#         name: backend-msg
