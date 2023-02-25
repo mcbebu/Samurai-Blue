@@ -7,8 +7,8 @@ import { ArrowLeftOnRectangleIcon, BriefcaseIcon, PlayCircleIcon, ClipboardDocum
 function NavBar() {
   const location = useLocation();
   return (
-    <div className='nav-container flex flex-col w-[245px] h-full tracking-wide gap-5 py-9 px-8 relative font-semibold'>
-      <div className='tracking-wider text-2xl m-2'>SampleName</div>
+    <div className='nav-container flex flex-col w-[250px] h-full tracking-wide gap-5 py-9 px-8 relative font-semibold'>
+      <div className='tracking-wider text-2xl m-2'>NinjaLive</div>
       <div className={`nav-button ${location.pathname.includes("/dashboard") ? "border-l-2" : ""}`}>
         <BriefcaseIcon className='w-[24px] h-[24px]'></BriefcaseIcon>
       <Link to="/dashboard">Dashboard</Link>
