@@ -1,0 +1,6 @@
+
+
+.nav-button:focus-within {
+  border-left: 2px solid #000;
+}
+
