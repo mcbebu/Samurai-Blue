@@ -27,6 +27,9 @@ const YOUR_DOMAIN = "http://localhost:4242";
 
 const port = process.env.PORT || 4242;
 
+const streamRouter = require("./routes/stream.js");
+app.use("/stream", streamRouter);
+
 app.use(express.static(process.env.STATIC_DIR + "/"));
 app.use(
     session({
@@ -72,7 +75,6 @@ app.use((req, res, next) => {
         bodyParser.json()(req, res, next);
     }
 });
-console.log(process.env.STATIC_DIR);
 
 app.get("/get-oauth-link", async (req, res) => {
     const state = uuidv4();
@@ -182,10 +184,33 @@ app.get("/onboard-user/refresh", async (req, res) => {
     }
 });
 
+// create order, get the order id
+// find the name, price by product code
+// with order id, name, price and qty, create checkout
+// i need username, platform, session name, product code, quantity
 // Creating prebuilt stripe checkout, product defined on the fly
 app.post("/create-checkout-session", express.json(), async (req, res) => {
-    // can add the specific tickets that were assigned in the metadata
-    console.log(req.body);
+    // find product
+    const product = await prisma.product.findUnique({
+        where: { product_code: req.body.product_code },
+    });
+
+    // create order
+    const order = await prisma.orders.create({
+        data: {
+            username: req.body.username,
+            platform: req.body.platform,
+            productId: product.id,
+            status: "Checkout link sent",
+            sessionName: req.body.sessionname,
+        },
+    });
+    // console.log(product);
+    // console.log(order);
+    // console.log(req.body);
+
+    // create link
+    // add custom fields
     const session = await stripe.checkout.sessions.create(
         {
             line_items: [
@@ -193,10 +218,10 @@ app.post("/create-checkout-session", express.json(), async (req, res) => {
                     quantity: req.body.quantity,
                     price_data: {
                         currency: "sgd",
-                        unit_amount: req.body.price,
+                        unit_amount: product.price,
                         tax_behavior: "inclusive",
                         product_data: {
-                            name: req.body.name,
+                            name: product.name,
                             tax_code: "txcd_10000000",
                         },
                     },
@@ -208,13 +233,64 @@ app.post("/create-checkout-session", express.json(), async (req, res) => {
             cancel_url: `${YOUR_DOMAIN}?canceled=true`,
             automatic_tax: { enabled: true },
             metadata: {
-                orderid: req.body.orderid,
+                orderid: order.id,
             },
             customer_creation: "if_required",
         },
         { stripeAccount: "acct_1MfJkwJVJJeB1km6" }
     );
+    // call martin endpoint to send message
     res.end(JSON.stringify({ url: `${session.url}` }));
 });
+
+const endpointSecret =
+    "whsec_0a1aafb35a8e08c9f154e54ead53d42f682348db0796a0379c9658a868ec57e0";
+
+// update order to completed
+//
+app.post(
+    "/webhook",
+    express.raw({ type: "application/json" }),
+    (request, response) => {
+        const sig = request.headers["stripe-signature"];
+
+        let event;
+
+        try {
+            // request.body param takes in buffer instead of parsed data, so must use raw middleware and cant define globally
+            event = stripe.webhooks.constructEvent(
+                request.body,
+                sig,
+                endpointSecret
+            );
+            console.log("event success");
+        } catch (err) {
+            response.status(400).send(`Webhook Error: ${err.message}`);
+            return;
+        }
+
+        // Handle the event
+        switch (event.type) {
+            case "payment_intent.succeeded":
+                const paymentIntentSucceeded = event.data.object;
+                // Then define and call a function to handle the event payment_intent.succeeded
+                break;
+            // ... handle other event types
+            case "checkout.session.completed":
+                console.log(event.data.object.metadata);
+
+                break;
+            case "checkout.session.async_payment_succeeded":
+                console.log(event.data.object.metadata);
+
+                break;
+            default:
+                console.log(`Unhandled event type ${event.type}`);
+        }
+
+        // Return a 200 response to acknowledge receipt of the event
+        response.send();
+    }
+);
 
 app.listen(4242, () => console.log("Running on port 4242"));

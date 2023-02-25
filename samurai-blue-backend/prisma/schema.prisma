@@ -27,7 +27,7 @@ model User {
 model Product {
   id            Int      @id @default(autoincrement())
   name          String
-  product_code  String
+  product_code  String   @unique
   quantity      Int
   price         Int
   weightInGrams Int?
