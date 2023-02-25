@@ -30,6 +30,8 @@ async function connect() {
     return result
 }
 
+var cors = require('cors')
+app.use(cors())
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/messages', async (req, res) => {
