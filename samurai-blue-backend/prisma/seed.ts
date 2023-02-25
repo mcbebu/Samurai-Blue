@@ -29,6 +29,12 @@ const userData = [
     },
 ];
 
+const sessionData = [
+    {
+        name: "S1",
+    },
+];
+
 const productData = [
     {
         name: "Change",
@@ -39,6 +45,28 @@ const productData = [
         SKU: "1234",
         imageurl:
             "https://www.ninjavan.co/static/8e42d7a6177eee2281bf94c9369ffca4/26e8b/desktop.jpg",
+        Orders: {
+            create: [
+                {
+                    username: "fb_1",
+                    platform: "FB",
+                    status: "Checkout Link Sent",
+                    sessionName: "S1",
+                },
+                {
+                    username: "fb_2",
+                    platform: "FB",
+                    status: "Checkout Link Sent",
+                    sessionName: "S1",
+                },
+                {
+                    username: "fb_3",
+                    platform: "FB",
+                    status: "Checkout Completed, Please ship customer order",
+                    sessionName: "S1",
+                },
+            ],
+        },
     },
     {
         name: "Change1",
@@ -69,6 +97,12 @@ async function main() {
             data: u,
         });
         console.log(`Created user with id: ${user.id}`);
+    }
+    for (const s of sessionData) {
+        const session = await prisma.session.create({
+            data: s,
+        });
+        console.log(`Created session with name: ${session.name}`);
     }
     for (const p of productData) {
         const user = await prisma.product.create({

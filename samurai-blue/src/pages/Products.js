@@ -1,5 +1,4 @@
 import React from "react";
-import { shirt1 } from "../img";
 import { useState, useEffect } from "react";
 import { BACKEND_DOMAIN } from "../util/api";
 
@@ -26,7 +25,7 @@ function Products() {
     }
     console.log(content);
     return (
-        <div>
+        <div className="flex flex-col w-full font-opensans py-16 px-12 gap-5 bg-gray-100">
             {isLoading ? (
                 <></>
             ) : (

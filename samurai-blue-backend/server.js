@@ -53,16 +53,15 @@ app.get("/username/:username", async (req, res) => {
 });
 
 app.get("/products", async (req, res) => {
-    // const response = concerts[req.params.id];
-    // if (response === undefined) {
-    //     res.status(404).send();
-    // }
-    // console.log(response);
-    // res.end(JSON.stringify(response));
-
     const product = await prisma.product.findMany();
     console.log(product);
     res.json(product);
+});
+
+app.get("/orders", async (req, res) => {
+    const order = await prisma.orders.findMany();
+    console.log(order);
+    res.json(order);
 });
 
 // Use JSON parser for all non-webhook routes
