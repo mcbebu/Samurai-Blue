@@ -37,8 +37,8 @@ const sessionData = [
 
 const productData = [
     {
-        name: "Change",
-        product_code: "ABCD",
+        name: "Blueberry",
+        product_code: "BLUEM",
         quantity: 10,
         price: 1000,
         weightInGrams: 100,
@@ -69,18 +69,28 @@ const productData = [
         },
     },
     {
-        name: "Change1",
-        product_code: "ABCE",
+        name: "Coconut",
+        product_code: "COCO",
         quantity: 10,
-        price: 1000,
+        price: 500,
         weightInGrams: 100,
         SKU: "1234",
         imageurl:
             "https://www.ninjavan.co/static/8e42d7a6177eee2281bf94c9369ffca4/26e8b/desktop.jpg",
     },
     {
-        name: "Change2",
-        product_code: "ABCF",
+        name: "Hotplate",
+        product_code: "HOTTIE",
+        quantity: 10,
+        price: 10000,
+        weightInGrams: 100,
+        SKU: "1234",
+        imageurl:
+            "https://www.ninjavan.co/static/8e42d7a6177eee2281bf94c9369ffca4/26e8b/desktop.jpg",
+    },
+    {
+        name: "Football",
+        product_code: "FBPORT",
         quantity: 10,
         price: 1000,
         weightInGrams: 100,
