@@ -1,0 +1,71 @@
+---
+apiVersion: v1 
+kind: Service 
+metadata: 
+  annotations:   
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.autocreate: 
+        '{
+            "type": "public",
+            "bandwidth_name": "cce-bandwidth-1551163379627",
+            "bandwidth_chargemode":"traffic",
+            "bandwidth_size": 5,
+            "bandwidth_sharetype": "PER",
+            "eip_type": "5_bgp",
+            "name": "james"
+        }'
+  labels: 
+    app: nginx 
+  name: nginx 
+spec: 
+  ports: 
+  - name: service0 
+    port: 80
+    protocol: TCP 
+    targetPort: 80
+  selector: 
+    app: nginx 
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: nginx 
+        name: nginx
+      imagePullSecrets:
+      - name: default-secret
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-twitch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-twitch
+  template:
+    metadata:
+      labels:
+        app: backend-twitch
+    spec:
+      containers:
+      - image: ninjavan-samuraiblue/backend-twitch:v1
+        name: backend-twitch
+
+
+# docker tag [{Image Name}:{Tag name}] swr.ap-southeast-3.myhuaweicloud.com/{Organization Name}/{Image Name}:{Tag name}
