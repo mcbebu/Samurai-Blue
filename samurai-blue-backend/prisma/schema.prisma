@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    Int     @id @default(autoincrement())
+  username              String  @unique
+  stripeAccount         String?
+  from_name             String?
+  from_phone_number     String?
+  from_email            String?
+  from_address_postcode String?
+  from_address_address1 String?
+  from_address_country  String?
+}
+
+model Product {
+  id            Int      @id @default(autoincrement())
+  name          String
+  product_code  String
+  quantity      Int
+  price         Int
+  weightInGrams Int?
+  SKU           String?
+  imageurl      String?
+  Orders        Orders[]
+}
+
+model Orders {
+  id            Int             @id @default(autoincrement())
+  username      String
+  platform      String
+  product       Product?        @relation(fields: [productId], references: [id])
+  productId     Int?
+  status        String
+  NinjavanOrder NinjavanOrder[]
+}
+
+// ninjavan order rmb the header param auth token
+model NinjavanOrder {
+  id                             Int     @id @default(autoincrement())
+  service_type                   String
+  service_level                  String
+  merchant_order_number          String //within reference object
+  order                          Orders? @relation(fields: [ordersId], references: [id])
+  ordersId                       Int?
+  to_name                        String
+  to_phone_number                String
+  to_email                       String
+  to_address_postcode            String
+  to_address_address1            String
+  to_address_country             String
+  collection_point               String
+  parcel_job_delivery_start_date String
+  parcel_job_delivery_timeslot   String
+  parcel_job_is_pickup_required  Boolean
+}
