@@ -5,6 +5,11 @@ import { TwitchEmbed } from 'react-twitch-embed';
 
 
 function NewBroadcast() {
+
+  const clickHandler = () => {
+
+  }
+
   return (
     <div className="flex gap-4 justify-start w-full relative">
       <div className="flex flex-col w-full pt-16 gap-6">
@@ -38,7 +43,7 @@ function NewBroadcast() {
               Add Products
             </button>
       </div>
-      <button className="dark-broadcast-btn flex gap-1 absolute bottom-8 right-20" onClick={}>
+      <button className="dark-broadcast-btn flex gap-1 absolute bottom-8 right-20" onClick={clickHandler}>
              <PlayIcon className="w-[18px] h[20px]"></PlayIcon>
              <Link to="/broadcasting">Start Broadcast</Link>
           </button>
