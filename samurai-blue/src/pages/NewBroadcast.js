@@ -2,12 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { PlayIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { TwitchEmbed } from 'react-twitch-embed';
-
+import { STREAM_BACKEND_DOMAIN } from "../util/api";
 
 function NewBroadcast() {
 
-  const clickHandler = () => {
-
+  const clickHandler = async() => {
+    const fbStreamID = await fetch(STREAM_BACKEND_DOMAIN + 'createStream',{method:"POST"})
+    const result = await fbStreamID.json();
+    console.log(result)
   }
 
   return (
