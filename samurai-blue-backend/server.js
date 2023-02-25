@@ -11,6 +11,9 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { Prisma } = require("@prisma/client");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const axios = require("axios");
+const PAGE_TOKEN =
+    "EAAHycBwKj80BAG3YyzdwRKWUtZBZBBZBOif0MhZCZCNQim4UD6ci4mdubfr8fCaa3qfiUti0WeaDfMcNuJkoP8sRUZCJboggqbOTavfguCuH4tPCfPZCpEbfYQzMMZBd8VF97LvoigGX0uauPxVAZB4tEaZC4dqGZCHl1ZAUNZBt49ajeWQZBnjIJi7TOTVpkVqnwwKRZBtvs6ewL38imQzcJVmjUleRtZCI89eAJnEZD";
 
 const app = express();
 app.use(express.static("public"));
@@ -26,6 +29,9 @@ app.use(function (req, res, next) {
 const YOUR_DOMAIN = "http://localhost:4242";
 
 const port = process.env.PORT || 4242;
+
+const streamRouter = require("./routes/stream.js");
+app.use("/stream", streamRouter);
 
 app.use(express.static(process.env.STATIC_DIR + "/"));
 app.use(
@@ -177,39 +183,188 @@ app.get("/onboard-user/refresh", async (req, res) => {
   }
 });
 
+// create order, get the order id
+// find the name, price by product code
+// with order id, name, price and qty, create checkout
+// i need username, platform, session name, product code, quantity
 // Creating prebuilt stripe checkout, product defined on the fly
 app.post("/create-checkout-session", express.json(), async (req, res) => {
-  // can add the specific tickets that were assigned in the metadata
-  console.log(req.body);
-  const session = await stripe.checkout.sessions.create(
-    {
-      line_items: [
-        {
-          quantity: req.body.quantity,
-          price_data: {
-            currency: "sgd",
-            unit_amount: req.body.price,
-            tax_behavior: "inclusive",
-            product_data: {
-              name: req.body.name,
-              tax_code: "txcd_10000000",
-            },
-          },
+    // find product
+    const product = await prisma.product.findUnique({
+        where: { product_code: req.body.product_code },
+    });
+
+    // create order
+    const order = await prisma.orders.create({
+        data: {
+            username: req.body.username,
+            platform: req.body.platform,
+            productId: product.id,
+            status: "Checkout link sent",
+            sessionName: req.body.sessionname,
         },
-      ],
-      payment_method_types: ["card", "paynow"],
-      mode: "payment",
-      success_url: `${YOUR_DOMAIN}?success=true`,
-      cancel_url: `${YOUR_DOMAIN}?canceled=true`,
-      automatic_tax: { enabled: true },
-      metadata: {
-        orderid: req.body.orderid,
-      },
-      customer_creation: "if_required",
-    },
-    { stripeAccount: "acct_1MfJkwJVJJeB1km6" }
-  );
-  res.end(JSON.stringify({ url: `${session.url}` }));
+    });
+    console.log(product);
+    console.log(order);
+    console.log(req.body);
+
+    // create link
+    // add custom fields
+    const session = await stripe.checkout.sessions.create(
+        {
+            line_items: [
+                {
+                    quantity: req.body.quantity,
+                    price_data: {
+                        currency: "sgd",
+                        unit_amount: product.price,
+                        tax_behavior: "inclusive",
+                        product_data: {
+                            name: product.name,
+                            tax_code: "txcd_10000000",
+                        },
+                    },
+                },
+            ],
+            payment_method_types: ["card", "paynow"],
+            mode: "payment",
+            success_url: `${YOUR_DOMAIN}/success`,
+            cancel_url: `${YOUR_DOMAIN}/canceled`,
+            automatic_tax: { enabled: true },
+            metadata: {
+                orderid: order.id,
+            },
+            customer_creation: "if_required",
+            custom_fields: [
+                {
+                    key: "phonenumber",
+                    label: { type: "custom", custom: "Phone Number" },
+                    type: "text",
+                },
+                {
+                    key: "address",
+                    label: { type: "custom", custom: "Shipping Address" },
+                    type: "text",
+                },
+            ],
+        },
+        { stripeAccount: "acct_1MfJkwJVJJeB1km6" }
+    );
+    // call martin endpoint to send message
+    // const msg = "hi lmao";
+    const shortened = await axios.post(
+        "https://api.tinyurl.com/create?api_token=N0ivxMUYBSxmjx5rb61TYjlggJOxjkgOQLjcuchvCwwaxjG4B1fv4v3zSLAO",
+        {
+            url: `${session.url}`,
+            domain: "tinyurl.com",
+            alias: `${session.url}`.slice(42, 52),
+            // expires_at: "2023-10-25 10:11:12",
+        }
+    );
+    // const body = await shortened.json();
+    console.log(shortened);
+    try {
+        const lmao = await axios.post(
+            "https://graph.facebook.com/v16.0/110513338639515/messages?recipient={'id':6440338032660868}&messaging_type=UPDATE&message={'text':'" +
+                `${shortened.data.data.tiny_url}` +
+                "'}&access_token=" +
+                PAGE_TOKEN
+        );
+        res.status(200).json({ message: "message sent!" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+    // res.end(JSON.stringify({ url: `${session.url}` }));
 });
+
+app.get("/success", (req, res) => {
+    const path = resolve("client" + "/success.html");
+    res.sendFile(path);
+});
+
+const endpointSecret =
+    "whsec_0a1aafb35a8e08c9f154e54ead53d42f682348db0796a0379c9658a868ec57e0";
+
+// update order to completed
+// create a ninjavan order
+// post to the ninjavan api
+// send email?
+app.post(
+    "/webhook",
+    express.raw({ type: "application/json" }),
+    async (request, response) => {
+        const sig = request.headers["stripe-signature"];
+
+        let event;
+
+        try {
+            // request.body param takes in buffer instead of parsed data, so must use raw middleware and cant define globally
+            event = stripe.webhooks.constructEvent(
+                request.body,
+                sig,
+                endpointSecret
+            );
+            console.log("event success");
+        } catch (err) {
+            response.status(400).send(`Webhook Error: ${err.message}`);
+            return;
+        }
+
+        // Handle the event
+        switch (event.type) {
+            case "payment_intent.succeeded":
+                const paymentIntentSucceeded = event.data.object;
+                // Then define and call a function to handle the event payment_intent.succeeded
+                break;
+            // ... handle other event types
+            case "checkout.session.completed":
+                console.log("orderid: " + event.data.object.metadata.orderid);
+                console.log(
+                    "phone number: " +
+                        event.data.object.custom_fields[0].text.value
+                );
+                console.log(
+                    "address: " + event.data.object.custom_fields[1].text.value
+                );
+                // update order status to paid
+                const updateOrder = await prisma.orders.update({
+                    where: {
+                        id: Number(event.data.object.metadata.orderid),
+                    },
+                    data: {
+                        status: "Checkout Completed",
+                    },
+                });
+                // create ninjavan order
+                // i need
+                //   service_type                   String
+                //   service_level                  String
+                //   merchant_order_number          String //within reference object
+                //   order                          Orders? @relation(fields: [ordersId], references: [id])
+                //   ordersId                       Int?
+                //   to_name                        String
+                //   to_phone_number                String
+                //   to_email                       String
+                //   to_address_postcode            String
+                //   to_address_address1            String
+                //   to_address_country             String
+                //   collection_point               String
+                //   parcel_job_delivery_start_date String
+                //   parcel_job_delivery_timeslot   String
+                //   parcel_job_is_pickup_required  Boolean
+
+                break;
+            case "checkout.session.async_payment_succeeded":
+                console.log(event.data.object.metadata);
+
+                break;
+            default:
+                console.log(`Unhandled event type ${event.type}`);
+        }
+
+        // Return a 200 response to acknowledge receipt of the event
+        response.send();
+    }
+);
 
 app.listen(4242, () => console.log("Running on port 4242"));
