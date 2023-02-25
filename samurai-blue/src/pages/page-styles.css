@@ -22,6 +22,8 @@ textarea {
 .dark-btn {
   background: #000;
   color: white;
+  border: 1px solid black;
+
   @apply py-2 pl-3 pr-5 rounded-full w-fit;
 }
 
@@ -29,12 +31,12 @@ textarea {
 .dark-btn:hover {
   background: white;
   color: black;
-  border: 1px solid black;
 }
 
 .dark-btn-norm {
   background: #000;
   color: white;
+  border: 1px solid black;
   @apply py-2 px-7 rounded-full w-fit;
 }
 
@@ -42,19 +44,18 @@ textarea {
 .dark-btn-norm:hover {
   background: white;
   color: black;
-  border: 1px solid black;
 }
 
 .dark-broadcast-btn {
   background: #000;
   color: white;
+  border: 1px solid black;
   @apply py-2 px-4 rounded-full w-fit;
 }
 
 .dark-broadcast-btn:hover {
   background: white;
   color: black;
-  border: 1px solid black;
 }
 .payment-methods {
   min-width: 600px;
@@ -75,4 +76,8 @@ textarea {
 .username-login-container {
   border-top: 1px solid black;
   padding-top: 1.5rem;
+}
+
+.comments-sect {
+  border: 1px solid black;
 }

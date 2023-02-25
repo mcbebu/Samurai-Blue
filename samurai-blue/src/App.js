@@ -9,6 +9,7 @@ import NewBroadcast from './pages/NewBroadcast'
 import Broadcasts from './pages/Broadcasts';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Broadcasting from './pages/Broadcasting';
 
 
 
@@ -23,12 +24,13 @@ function App() {
         <Route path="dashboard" element={<Dashboard/>}></Route>
         <Route path="broadcasts" element={<Broadcasts />}></Route>
         <Route path="broadcasts/new-broadcast" element={<NewBroadcast/>}></Route>
-
         <Route path="orders" element={<Orders/>}></Route>
         <Route path="products" element={<Products/>}></Route>
         <Route path="settings" element={<Settings />}></Route>
         <Route path="login" element={<Login />}></Route>
         <Route path="sign-up" element={<SignUp />}></Route>
+        <Route path="broadcasting" element={<Broadcasting />}></Route>
+
 
 
       </Routes>
