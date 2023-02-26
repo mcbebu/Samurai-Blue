@@ -6,19 +6,29 @@ import { fblogo, twitchlogo } from "../img";
 import { TwitchEmbed } from "react-twitch-embed";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { BACKEND_DOMAIN } from "../util/api";
 
 function Broadcasting() {
   const [comments, setComments] = useState([]);
-
-  // useEffect(() => {
-
-  //     axios
-  //       .get("http://49.0.201.137:3000/messages")
-  //       .then((response) => {
-  //       setComments(response.data);
-  //     });
-
-  // }, []);
+  const [state, setState] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const getAllInformation = async () => {
+      // start loading
+      setIsLoading(true);
+      // make the request here
+      const data = await fetch(BACKEND_DOMAIN + "orders");
+      const body = await data.json();
+      setState(body);
+      // already finished here
+      setIsLoading(false);
+    };
+    getAllInformation();
+  }, []);
+  const content = state.filter((order) => {
+    return order.sessionName === "S3";
+  });
+  console.log(content);
 
   const updateState = useCallback(async () => {
     axios.get("http://49.0.201.137:3000/messages").then((response) => {
@@ -33,7 +43,7 @@ function Broadcasting() {
   return (
     <div className="streaming-layout flex relative pt-8 px-3 pr-6 w-screen h-screen gap-6">
       <div className="flex flex-col">
-      <div className="flex justify-between">
+        <div className="flex justify-between">
           <div className="flex live-icon w-fit h-fit text-white rounded-full pl-1 pr-3 py-1 gap-1 my-2">
             <PlayCircleIcon className="w-[24px] h-[24px] stroke-white tracking-wider"></PlayCircleIcon>
             L I V E
@@ -50,9 +60,8 @@ function Broadcasting() {
           height={360}
           width={640}
         />
-        
 
-        <div className="comments-sect w-[640px] h-[205px] mt-7 px-4 py-4 rounded-xl overflow-auto flex flex-col-reverse gap-3">
+        <div className="comments-sect w-[640px] h-[210px] px-4 py-4 mt-6 rounded-xl overflow-auto flex flex-col-reverse gap-3">
           {comments.map((comment) => {
             console.log(comment);
             return (
@@ -71,20 +80,27 @@ function Broadcasting() {
           })}
         </div>
       </div>
-
       <div className="orders-sect w-auto flex-1 h-auto mb-12 rounded-xl bg-slate-100 flex flex-col">
         <div className="font-semibold tracking-wide p-7 text-xl">Orders</div>
         <div className="orders-overflow-container w-full h-[35rem] overflow-auto flex flex-col">
-          {/* map here */}
-          <div className="order-tab bg-white rounded-xl p-5 mx-5 mb-5 w-auto h-fit flex flex-col">
-            <div className="flex justify-between">
-              <div className="tab-id font-semibold mb-2">Order #0001</div>
-              <div className="tab-name text-sm">Username</div>
-            </div>
-            <div className="tab-name text-sm">Product Name</div>
-            <div className="tab-name text-sm">Product ID</div>
-            <div className="tab-name text-sm">Quantity</div>
-          </div>
+          {content.map((order) => {
+            return (
+              <div className="order-tab bg-white rounded-xl p-5 mx-5 mb-5 w-auto h-fit flex flex-col">
+                <div className="flex justify-between">
+                  <div className="tab-id font-semibold mb-2">
+                    Order Id: {order.id}
+                  </div>
+                  <div className="tab-name text-sm">
+                    Username: {order.username}
+                  </div>
+                </div>
+                <div className="tab-name text-sm">
+                  Product ID: {order.productId}
+                </div>
+                <div className="tab-name text-sm">Status: {order.status}</div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
