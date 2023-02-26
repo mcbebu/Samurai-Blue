@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { BACKEND_DOMAIN, STREAM_BACKEND_DOMAIN } from "../util/api";
 
 const PAGE_TOKEN =
-    "EAAHycBwKj80BAFPt52kAJCD43wRcmdUhCUY5irA4TWEJw9DZAydkTrwrytPCA04bFiHFe5ZCYAKKAcIiZBZC8SumJsumA9CwLZC1UiLu1pQw1OhVUczw2QNZC2wtHoTe9AkRs4PCE5l7vngZAZBzBp6q9TNco8AbM30plKT4hMlIvz6tn0iuZB2kSvvjpPXs7dd3f3qaodFSy4qc4LVh3nmqKoFpy9ugCyc0ZD";
+    "EAAHycBwKj80BAFYNYAlazVDv14PdfaQYWGljfUa9En8NQYmcxMCFhil8O77ejWpZAnldivx6yMhb3QRHGEgTZCdobI6iZC7RiFJecwbGgNf3Ror61npVyZBEaifAvgDIamyiefZAS7vh70NeyyC9BIHMemphe92AIj4zhFHSlP99rZCl57egOvJgtPhreJWntR2UZCnTGCdtogZBHZByRvomrq0CCNZAB3iRkZD";
 const source = new EventSource(
     "https://streaming-graph.facebook.com/115137658172665/live_comments?access_token=" +
         PAGE_TOKEN +
