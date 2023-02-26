@@ -1,48 +1,20 @@
 import React from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { XMarkIcon, PlayIcon, PlusIcon } from "@heroicons/react/24/outline";
+
 import { TwitchEmbed } from "react-twitch-embed";
 import { fblogo, twitchlogo } from "../img";
 import { useState, useEffect } from "react";
 import { BACKEND_DOMAIN, STREAM_BACKEND_DOMAIN } from "../util/api";
 
-async function checkAPI(message) {
-    try {
-        const lmao = await axios.post("http://159.138.108.231:8080/message", {
-            message: message,
-        });
-        console.log(lmao.data);
-        return lmao.data;
-    } catch (error) {
-        console.log(error.message);
-    }
-}
 const PAGE_TOKEN =
-    "EAAHycBwKj80BAPc1tDIj2r3M4zCZCd1S7HFGZB5JaKl7RiZCWv94w3TJk3XpxpHN26l3sZCnR0VvZAxuHHTAJnWzSZBWpm9HZBCvTfWrDbElHNKfdI8YgjeZCYGMIKI2vc0SZBfTNK0Kz9Pgc5jr5IqZAyAqs635VH9XiWJSvAJwx82ODqw26dgBSZAZAji9sI6QLPZBBk0WV2ESlVZBW3UZABqo9fn8SGBf5kjJUoZD";
-const createOrder = async (item) => {
-      const response = await fetch(
-        BACKEND_DOMAIN + "create-checkout-session",
-        {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              username: "Martin Ong",
-              platform: "FB",
-              sessionname: "S3",
-              product_code: item[0],
-              quantity: item[1]
-            }),
-        }
-    );
-    console.log(response)
-  };
+    "EAAHycBwKj80BAAh3qkWPbumMNPoTZAxM44fufZARcFMHqzQnZCyL3ZA9lHFnOVZABMa0QE37YaUPyMflJvElZAewZC4tU7w4ukPZBIRzOfdlNjR7mJSItZBoDLG4g2NKGmq6ghBWSyZAwulVUT8gFUf9pT067eA8w3f2Y84sG5sP5RZCZCQAdwdFP2icaosHFv0ZBJw6ODvZCH9ZC3UQc8BAHd98iLiJz0YdQQbCD0ZD";
 const source = new EventSource(
-    "https://streaming-graph.facebook.com/115037204849377/live_comments?access_token=" +
+    "https://streaming-graph.facebook.com/114855184867579/live_comments?access_token=" +
         PAGE_TOKEN +
         "&comment_rate=one_per_two_seconds"
 );
-source.onmessage = async function (event) {
+source.onmessage = function (event) {
     // const result = event.data.json();
     const data = JSON.parse(event.data);
 
@@ -59,16 +31,7 @@ source.onmessage = async function (event) {
             userid: data.from.id,
         }),
     });
-
-    const checkAPIreturn = await checkAPI(data.message);
-    if (checkAPIreturn[0]) {
-        console.log("===============");
-        console.log("correct");
-        await createOrder(checkAPIreturn);
-    }
 };
-
-
 
 function NewBroadcast() {
     const clickHandler = async () => {
@@ -180,71 +143,102 @@ function NewBroadcast() {
                                 New Broadcast
                             </div>
 
-              {/* <div className="bg-black w-[640px] h-[360px] rounded-xl"></div> */}
-              <TwitchEmbed
-                channel="Kiarakitty"
-                hideControls
-                withChat={false}
-                height={360}
-                width={640}
-              />
-              <div className="flex flex-col gap-4 w-full flex-1">
-                <input
-                  type="text"
-                  name="broadcast-title"
-                  id="broadcast-title"
-                  placeholder="Broadcast Title"
-                  className="input-field mt-1 w-full rounded-md border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-                <textarea
-                  type="text"
-                  name="broadcast-description"
-                  id="broadcast-desc"
-                  placeholder="Description"
-                  className="input-field mt-1 mb-[97px] w-full rounded-md border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-            <div className="flex flex-col gap-5">
-              <div className="featured-products flex flex-col w-[14rem] h-[28rem] mt-28 ml-4 gap-3">
-                <div className="text-xl tracking-widest font-semibold pt-4 px-1">
-                  Featured Products
-                </div>
-                {addedProduct ? (
-                  <div className="w-auto p-4 h-[5rem] bg-white rounded-lg mb-4 flex flex-col">
-                    <div>{content[0].name}</div>
-                    <div>{content[0].product_code}</div>
-                  </div>
-                ) : (
-                  ""
-                )}
+                            {/* <div className="bg-black w-[640px] h-[360px] rounded-xl"></div> */}
+                            <TwitchEmbed
+                                channel="Kiarakitty"
+                                hideControls
+                                withChat={false}
+                                height={360}
+                                width={640}
+                            />
+                            <div className="flex flex-col gap-4 w-full flex-1">
+                                <input
+                                    type="text"
+                                    name="broadcast-title"
+                                    id="broadcast-title"
+                                    placeholder="Broadcast Title"
+                                    className="input-field mt-1 w-full rounded-md border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                />
+                                <textarea
+                                    type="text"
+                                    name="broadcast-description"
+                                    id="broadcast-desc"
+                                    placeholder="Description"
+                                    className="input-field mt-1 mb-10 w-full rounded-md border-gray-300 shadow-sm p-3 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                />
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-5">
+                            <div className="featured-products flex flex-col w-[14rem] h-[28rem] mt-28 ml-4 gap-3">
+                                <div className="text-xl tracking-widest font-semibold pt-4 px-1">
+                                    Featured Products
+                                </div>
+                                {addedProduct ? (
+                                    <div className="w-auto p-4 h-[5rem] bg-white rounded-lg mb-4 flex flex-col">
+                                        <div>{content[0].name}</div>
+                                        <div>{content[0].product_code}</div>
+                                    </div>
+                                ) : (
+                                    ""
+                                )}
 
-                <button
-                  className="dark-btn flex gap-1"
-                  onClick={() => setToggleAddProducts(true)}
-                >
-                  <PlusIcon className="w-[24px] h-[24px]"></PlusIcon>
-                  Add Products
-                </button>
-                <div className="linked-platforms w-auto mt-5">
-                  <div className="text-xl tracking-widest font-semibold pt-4 pb-1 px-1 ">
-                    Linked Platforms
-                  </div>
-                  <div className="font-light px-1">
-                    Select at least one platform to broadcast to.
-                  </div>
-                  <div className="flex pt-1 flex-col">
-                    <div className="flex p-3 gap-4">
-                      <img src={fblogo} className="w-[24px] h-[24px]"></img>
-                      <label class="relative inline-flex items-center cursor-pointer">
-                        <input
-                          type="checkbox"
-                          value=""
-                          class="sr-only peer"
-                          // defaultChecked={}
-                        />
-                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                      </label>
+                                <button
+                                    className="dark-btn flex gap-1"
+                                    onClick={() => setToggleAddProducts(true)}
+                                >
+                                    <PlusIcon className="w-[24px] h-[24px]"></PlusIcon>
+                                    Add Products
+                                </button>
+                                <div className="linked-platforms w-auto mt-5">
+                                    <div className="text-xl tracking-widest font-semibold pt-4 pb-1 px-1 ">
+                                        Linked Platforms
+                                    </div>
+                                    <div className="font-light px-1">
+                                        Select at least one platform to
+                                        broadcast to.
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <div className="flex p-3 gap-4">
+                                            <img
+                                                src={fblogo}
+                                                className="w-[24px] h-[24px]"
+                                            ></img>
+                                            <label class="relative inline-flex items-center cursor-pointer">
+                                                <input
+                                                    type="checkbox"
+                                                    value=""
+                                                    class="sr-only peer"
+                                                    // defaultChecked={}
+                                                />
+                                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                            </label>
+                                        </div>
+                                        <div className="flex p-3 gap-4">
+                                            <img
+                                                src={twitchlogo}
+                                                className="w-[24px] h-[24px]"
+                                            ></img>
+                                            <label class="relative inline-flex items-center cursor-pointer">
+                                                <input
+                                                    type="checkbox"
+                                                    value=""
+                                                    class="sr-only peer"
+                                                    // defaultChecked={}
+                                                />
+                                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            className="dark-broadcast-btn flex gap-1 absolute bottom-8 right-20"
+                            onClick={clickHandler}
+                        >
+                            <PlayIcon className="w-[20px] h[20px]"></PlayIcon>
+                            <Link to="/broadcasting">Start Broadcast</Link>
+                        </button>
                     </div>
                 </div>
             )}
@@ -253,3 +247,4 @@ function NewBroadcast() {
 }
 
 export default NewBroadcast;
+
