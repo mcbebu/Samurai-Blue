@@ -29,7 +29,7 @@ const createOrder = async (item) => {
             body: JSON.stringify({
               username: "Martin Ong",
               platform: "FB",
-              sessionname: "S2",
+              sessionname: "S3",
               product_code: item[0],
               quantity: item[1]
             }),
