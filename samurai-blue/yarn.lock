@@ -1531,11 +1531,6 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@kurkle/color@^0.3.0":
-  "integrity" "sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw=="
-  "resolved" "https://registry.npmjs.org/@kurkle/color/-/color-0.3.2.tgz"
-  "version" "0.3.2"
-
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
   resolved "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz"
@@ -6380,6 +6375,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+luxon@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.2.1.tgz#14f1af209188ad61212578ea7e3d518d18cee45f"
+  integrity sha512-QrwPArQCNLAKGO/C+ZIilgIuDnEnKx5QYODdDtbFaxzsbZcc/a7WFq7MhsVYgRlwawLtvOUESTlfJ+hc/USqPg==
+
 lz-string@^1.4.4:
   version "1.4.4"
   resolved "https://registry.npmjs.org/lz-string/-/lz-string-1.4.4.tgz"
@@ -7786,6 +7786,11 @@ react-app-polyfill@^3.0.0:
     regenerator-runtime "^0.13.9"
     whatwg-fetch "^3.6.2"
 
+react-chartjs-2@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/react-chartjs-2/-/react-chartjs-2-5.2.0.tgz#43c1e3549071c00a1a083ecbd26c1ad34d385f5d"
+  integrity sha512-98iN5aguJyVSxp5U3CblRLH67J8gkfyGNbiK3c+l1QI/G4irHMPQw44aEPmjVag+YKTyQ260NcF82GTQ3bdscA==
+
 react-dev-utils@^12.0.1:
   version "12.0.1"
   resolved "https://registry.npmjs.org/react-dev-utils/-/react-dev-utils-12.0.1.tgz"
@@ -7932,6 +7937,11 @@ react-twitch-embed@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/react-twitch-embed/-/react-twitch-embed-3.0.1.tgz"
   integrity sha512-ZjsLB3AVDQiGpL30u5TNq0CrBSuZXMvhbTgNSeQwoT9ehGud3R4LHxA5PZlt/TEquRVEsNNryLtQbXekk/kyUQ==
+
+react-utils@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-utils/-/react-utils-1.0.0.tgz#57255994c876f2313271f9c1b1a49ee06b5c6aeb"
+  integrity sha512-K7jaCSa/J6uVzL3MX4H9ZM3Ri3ZJubliwR4lqvdfEuFhD8I1bHu1fyUl6xTr3ZF0rK0jgQCHhHmbUbkgTgMfTw==
 
 react@^18.2.0:
   version "18.2.0"
