@@ -53,7 +53,7 @@ function NavBar() {
                 <ArchiveBoxIcon className="w-[24px] h-[24px]"></ArchiveBoxIcon>
                 <Link to="/products">Products</Link>
             </div>
-            <div className="bottom-icons absolute bottom-8 left-5">
+            <div className="bottom-icons absolute bottom-8 left-7">
                 <div
                     className={`nav-button ${
                         location.pathname.includes("/settings")

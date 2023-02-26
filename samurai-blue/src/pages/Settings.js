@@ -28,101 +28,115 @@ function Settings() {
         Account Settings
       </div>
       <div className="acc-details rounded-lg shadow-lg relative w-full flex flex-col h-auto bg-white">
-        <div>Account Details</div>
-        <form className="flex w-full">
-        <div className="mt-3 flex flex-col gap-4">
-          <div>
-            <label for="email-address" class="sr-only">
-              Email address
-            </label>
-            <input
-              id="email-address"
-              name="email"
-              type="email"
-              autocomplete="email"
-              required
-              class="flex-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              placeholder="Email address"
-            />
+        <div className="font-semibold">Account Details</div>
+        <form className="flex gap-6 w-full">
+          <div className="mt-3 flex flex-col gap-4">
+            <div>
+              <label for="name" class="sr-only">
+                Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="name"
+                value={ctx.from_name}
+                autocomplete="name"
+                required
+                class="flex-1  appearance-none rounded-md border w-[20rem] border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                placeholder="Name"
+              />
+            </div>
+            <div>
+              <label for="email-address" class="sr-only">
+                Email address
+              </label>
+              <input
+                id="email-address"
+                name="email"
+                type="email"
+                value={ctx.from_email}
+                autocomplete="email"
+                required
+                class="flex-1 appearance-none rounded-md border w-[20rem] border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                placeholder="Email address"
+              />
+            </div>
+
+            <div>
+              <label for="phone-number" class="sr-only">
+                Phone Number
+              </label>
+              <input
+                id="phone-number"
+                name="phone-number"
+                type="phone-number"
+                autocomplete="current-phone-number"
+                value={ctx.from_phone_number}
+                required
+                class="flex-1  appearance-none rounded-md border w-[20rem] border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                placeholder="Phone Number"
+              />
+            </div>
           </div>
-          <div>
-            <label for="password" class="sr-only">
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autocomplete="current-password"
-              required
-              class="flex-1  appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              placeholder="Password"
-            />
+          <div className="mt-3 flex flex-col gap-4">
+            <div>
+              <label for="postal-code" class="sr-only">
+                Email address
+              </label>
+              <input
+                id="postal-code"
+                name="postal-code"
+                type="postal-code"
+                value={ctx.from_address_postcode}
+                autocomplete="postal-code"
+                required
+                class="flex-1 appearance-none rounded-md border w-[20rem] border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                placeholder="Postal Code"
+              />
+            </div>
+            <div>
+              <label for="Address" class="sr-only">
+                Password
+              </label>
+              <input
+                id="address"
+                name="address"
+                type="address"
+                value={ctx.from_address_address1}
+
+                autocomplete="current-address"
+                required
+                class="flex-1  appearance-none rounded-md border w-[20rem] border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                placeholder="Address"
+              />
+            </div>
+            <div>
+              <label for="Country" class="sr-only">
+                Country
+              </label>
+              <input
+                id="country"
+                name="country"
+                type="country"
+                value={ctx.from_address_country}
+                autocomplete="current-country"
+                required
+                class="flex-1  appearance-none rounded-md border w-[20rem] border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                placeholder="Country"
+              />
+            </div>
           </div>
-          <div>
-            <label for="password" class="sr-only">
-              Phone Number
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autocomplete="current-password"
-              required
-              class="flex-1  appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              placeholder="Phone Number"
-            />
-          </div>
-        </div>
-        <div className="mt-3 flex flex-col gap-4">
-          <div>
-            <label for="email-address" class="sr-only">
-              Email address
-            </label>
-            <input
-              id="email-address"
-              name="email"
-              type="email"
-              autocomplete="email"
-              required
-              class="flex-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              placeholder="Email address"
-            />
-          </div>
-          <div>
-            <label for="password" class="sr-only">
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autocomplete="current-password"
-              required
-              class="flex-1  appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              placeholder="Password"
-            />
-          </div>
-          <div>
-            <label for="password" class="sr-only">
-              Phone Number
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autocomplete="current-password"
-              required
-              class="flex-1  appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              placeholder="Phone Number"
-            />
-          </div>
-          </div>
-          </form>
+          <button
+            type="submit"
+            className="dark-btn-norm h-fit absolute bottom-4 right-4"
+          >
+            Update
+          </button>
+        </form>
       </div>
-      
+
       <div className="payment-methods rounded-lg  shadow-lg relative w-full bg-white">
-        <div>Payment Methods</div>
+        <div className="font-semibold">Payment Methods</div>
         {ctx.stripeAccount === "" ? (
           <button
             onClick={handleConnectStripe}
@@ -135,7 +149,7 @@ function Settings() {
         )}
 
         <div className="other-payments flex-col py-2">
-          <div className="paynow flex-1 flex align-middle justify-between gap-3 my-5">
+          <div className="paynow flex-1 flex align-middle justify-between mb-4 mt-8">
             <div>PayNow</div>
             <label class="relative inline-flex items-center cursor-pointer">
               <input
