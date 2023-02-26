@@ -14,7 +14,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const axios = require("axios");
 const PAGE_TOKEN =
-    "EAAHycBwKj80BAFWw3CBunQ3acsdd4aqB7ZB723aM6rhRVodj4TUAjHm7TvgxesdZBxaZCVm2ZCsP9QO444lcVwRucDqbxWKHPzZCDhSaAAsADqNvmVacZCvP4MiZAjTWQzWTkmcJHwsOiZCSvOKVWCjtw0uGsJQkdYZCug6eNb0aTiI1ClnP7jvWL5ZAZBCR11DRo5dOm5KE18pX3ZBZCsvzmtKfYrmw3HVVz5MwZD";
+    "EAAHycBwKj80BADzGWDE8y3IBOcceEK522eujBtfxcZC1GkzYKUMZBKYDvF3MFgXfrFxQqx3LPoIsvZCPDZAjWtinPMnPZBqb9quDsGpfhcgXNMjGY1sOjzNmbpTJpyZBBe6UPOaTyu2T852W4QdBcxP0EXZArZBGl5a07ZATOGD5qOQUdDomhDPjyM7v9N7MF9xJdMQ30ZAl7kh9MHC2fmZA4fnrjB6ktjZAFRgZD";
 
 const app = express();
 app.use(express.static("public"));
