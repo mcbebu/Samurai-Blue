@@ -54,7 +54,7 @@ function Broadcasting() {
           </button>
         </div>
         <TwitchEmbed
-          channel="Kiarakitty"
+          channel="AstraI24"
           hideControls
           withChat={false}
           height={360}

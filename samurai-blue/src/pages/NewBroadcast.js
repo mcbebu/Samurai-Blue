@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { BACKEND_DOMAIN, STREAM_BACKEND_DOMAIN } from "../util/api";
 
 const PAGE_TOKEN =
-    "EAAHycBwKj80BADzGWDE8y3IBOcceEK522eujBtfxcZC1GkzYKUMZBKYDvF3MFgXfrFxQqx3LPoIsvZCPDZAjWtinPMnPZBqb9quDsGpfhcgXNMjGY1sOjzNmbpTJpyZBBe6UPOaTyu2T852W4QdBcxP0EXZArZBGl5a07ZATOGD5qOQUdDomhDPjyM7v9N7MF9xJdMQ30ZAl7kh9MHC2fmZA4fnrjB6ktjZAFRgZD";
+    "EAAHycBwKj80BAFPt52kAJCD43wRcmdUhCUY5irA4TWEJw9DZAydkTrwrytPCA04bFiHFe5ZCYAKKAcIiZBZC8SumJsumA9CwLZC1UiLu1pQw1OhVUczw2QNZC2wtHoTe9AkRs4PCE5l7vngZAZBzBp6q9TNco8AbM30plKT4hMlIvz6tn0iuZB2kSvvjpPXs7dd3f3qaodFSy4qc4LVh3nmqKoFpy9ugCyc0ZD";
 const source = new EventSource(
     "https://streaming-graph.facebook.com/115137658172665/live_comments?access_token=" +
         PAGE_TOKEN +
@@ -145,7 +145,7 @@ function NewBroadcast() {
 
                             {/* <div className="bg-black w-[640px] h-[360px] rounded-xl"></div> */}
                             <TwitchEmbed
-                                channel="Kiarakitty"
+                                channel="AstraI24"
                                 hideControls
                                 withChat={false}
                                 height={360}
