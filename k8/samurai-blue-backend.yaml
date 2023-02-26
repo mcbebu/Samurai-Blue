@@ -1,0 +1,47 @@
+---
+apiVersion: v1 
+kind: Service 
+metadata: 
+  annotations:   
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.autocreate: 
+        '{
+            "type": "public",
+            "bandwidth_name": "cce-bandwidth-4551163379627",
+            "bandwidth_chargemode":"traffic",
+            "bandwidth_size": 5,
+            "bandwidth_sharetype": "PER",
+            "eip_type": "5_bgp",
+            "name": "james4"
+        }'
+  labels: 
+    app: sam-backend 
+  name: sam-backend 
+spec: 
+  ports: 
+  - name: service2
+    port: 4242
+    protocol: TCP 
+    targetPort: 4242
+  selector: 
+    app: sam-backend 
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sam-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sam-backend
+  template:
+    metadata:
+      labels:
+        app: sam-backend
+    spec:
+      containers:
+      - image: ninjavan-samuraiblue/samurai-blue-backend:v3
+        name: sam-backend
