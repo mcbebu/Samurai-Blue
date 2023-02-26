@@ -43,5 +43,5 @@ spec:
         app: sam-backend
     spec:
       containers:
-      - image: ninjavan-samuraiblue/samurai-blue-backend:v3
+      - image: ninjavan-samuraiblue/samurai-blue-backend:v7
         name: sam-backend
