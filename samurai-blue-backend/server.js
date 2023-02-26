@@ -27,7 +27,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-const YOUR_DOMAIN = "http://localhost:4242";
+const YOUR_DOMAIN = "http://119.8.175.110:4242";
 
 const streamRouter = require("./routes/stream.js");
 app.use("/stream", streamRouter);
@@ -52,19 +52,16 @@ app.get("/username/:username", async (req, res) => {
   const user = await prisma.user.findUnique({
     where: { username: username },
   });
-  console.log(user);
   res.json(user);
 });
 
 app.get("/products", async (req, res) => {
   const product = await prisma.product.findMany();
-  console.log(product);
   res.json(product);
 });
 
 app.get("/orders", async (req, res) => {
   const order = await prisma.orders.findMany();
-  console.log(order);
   res.json(order);
 });
 
@@ -249,6 +246,7 @@ app.post("/create-checkout-session", express.json(), async (req, res) => {
         },
         { stripeAccount: "acct_1MfJkwJVJJeB1km6" }
     );
+    console.log(session.url);
     // call martin endpoint to send message
     // const msg = "hi lmao";
     const shortened = await axios.post(
@@ -269,8 +267,10 @@ app.post("/create-checkout-session", express.json(), async (req, res) => {
                 "'}&access_token=" +
                 PAGE_TOKEN
         );
+        console.log(lmao);
         res.status(200).json({ message: "message sent!" });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message });
     }
     // res.end(JSON.stringify({ url: `${session.url}` }));
