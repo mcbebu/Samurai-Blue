@@ -30,16 +30,27 @@ async function checkAPI(message) {
 	await axios.post('http://159.138.108.231:8080/message', {
 		'message': message
 	})
-	.then(function (response) {
+	.then(async function (response) {
 		console.log(response.data[0]);
 		console.log(response.data[1]);
+
+		if (response.data[0] != '') {
+			await axios.post('http://119.8.175.110:4242/create-checkout-session', {
+				'quantity': response.data[1],
+				'username': 'xianxiang',
+				'platform': 'twitch',
+				'sessionname': 'S3',
+				'product_code': 'COCO',
+				"connected_account": "acct_1Hq5ZpJZ2Z2Z2Z2Z"
+			})
+		}
 	})
 	.catch(function (error) {
 		console.log(error);
 	});
 }
 
-const channel = 'kiaraakitty';
+const channel = 'AstraI24';
 
 const client = new tmi.Client({
 	channels: [ channel ]
